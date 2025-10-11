@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Environment Dashboard</title>
+  <style>
+    /* Nature-themed colors */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0f7fa, #d0f0c0);
+      color: #333;
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      color: #2e7d32;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card h2 {
+      color: #388e3c;
+      margin-bottom: 10px;
+    }
+    .card p {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    button {
+      padding: 10px 25px;
+      margin-top: 10px;
+      cursor: pointer;
+      background: #66bb6a;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #43a047;
+    }
+    #led {
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Smart Environment Dashboard</h1>
+    <div class="card">
+      <h2>Temperature</h2>
+      <p id="temp">-- °C</p>
+    </div>
+    <div class="card">
+      <h2>Humidity</h2>
+      <p id="humidity">-- %</p>
+    </div>
+    <div class="card">
+      <h2>LED Status</h2>
+      <p id="led">OFF</p>
+      <button onclick="toggleLED()">Toggle LED</button>
+    </div>
+    <div class="card">
+      <h2>AI Prediction</h2>
+      <p id="prediction">--</p>
+    </div>
+  </div>
+
+  <script>
+    // Base URL for RobotNinja API
+    const baseURL = "https://iot.roboninja.in/index.php";
+    const UID = "VC11";
+
+    let ledState = false; // false = OFF, true = ON
+
+    // Fetch Temperature
+    async function getTemperature() {
+      try {
+        const res = await fetch(`${baseURL}?action=read&UID=${UID}&Temperature`);
+        const data = await res.json();
+        return parseFloat(data.Value);
+      } catch (err) {
+        console.error("Temperature fetch error:", err);
+        return null;
+      }
+    }
+
+    // Fetch Humidity
+    async function getHumidity() {
+      try {
+        const res = await fetch(`${baseURL}?action=read&UID=${UID}&Humidity`);
+        const data = await res.json();
+        return parseFloat(data.Value);
+      } catch (err) {
+        console.error("Humidity fetch error:", err);
+        return null;
+      }
+    }
+
+    // Update dashboard values
+    async function updateDashboard() {
+      const temp = await getTemperature();
+      const hum = await getHumidity();
+
+      if(temp !== null) document.getElementById("temp").innerText = temp + " °C";
+      if(hum !== null) document.getElementById("humidity").innerText = hum + " %";
+
+      // AI prediction logic
+      let prediction = "Comfortable";
+      if(temp > 30) prediction = "Too Hot";
+      else if(hum > 70) prediction = "Humid";
+      document.getElementById("prediction").innerText = prediction;
+    }
+
+    // Toggle LED
+    async function toggleLED() {
+      ledState = !ledState;
+      document.getElementById("led").innerText = ledState ? "ON" : "OFF";
+
+      // Send LED state to ESP8266 via RobotNinja Write API using D1
+      const ledValue = ledState ? 1 : 0;
+      try {
+        await fetch(`${baseURL}?action=write&UID=${UID}&D1=${ledValue}`);
+      } catch(err) {
+        console.error("LED toggle error:", err);
+      }
+    }
+
+    // Update every 2 seconds
+    setInterval(updateDashboard, 2000);
+    updateDashboard(); // initial load
+  </script>
+</body>
+</html>
