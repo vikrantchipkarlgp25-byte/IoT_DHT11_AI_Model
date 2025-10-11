@@ -1,4 +1,4 @@
-Smart Environment Monitoring System (DHT11 + AI Integration)
+# Smart Environment Monitoring System (DHT11 + AI Integration)
 Overview
 
 This project demonstrates an Internet of Things (IoT) based environment monitoring system that collects data from a DHT11 temperature and humidity sensor, transmits it through the RobotNinja IoT API, and displays the data on both a mobile dashboard app and a web-based dashboard.
