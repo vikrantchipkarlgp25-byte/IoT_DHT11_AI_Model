@@ -1,5 +1,6 @@
 #include <NinjaIoT.h>
 #include "DHT.h"
+#include "password.h"
 
 NinjaIoT iot;
 
@@ -12,7 +13,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
   Serial.begin(115200);
-  iot.connect("Riddhi_4G", "sarita1206", "VC11");    //link:   https://iot.roboninja.in/
+  iot.connect(wifiuser, pass, uid);    //link:   https://iot.roboninja.in/
   dht.begin();
 }
 

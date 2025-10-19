@@ -3,149 +3,245 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Environment Dashboard</title>
+  <title>🌿 Nature Environment Dashboard 🌿</title>
   <style>
-    /* Nature-themed colors */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #e0f7fa, #d0f0c0);
-      color: #333;
-      text-align: center;
-      padding: 20px;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      background: linear-gradient(to top, #87ceeb 0%, #c0f0f0 70%, #ffffff 100%);
+      position: relative;
     }
-    .container {
-      max-width: 700px;
-      margin: auto;
+
+    /* Sun */
+    .sun {
+      position: absolute;
+      top: 50px;
+      right: 50px;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, #FFD700, #FFA500);
+      border-radius: 50%;
+      box-shadow: 0 0 100px #FFD700;
+      animation: rotateSun 30s linear infinite;
     }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: #2e7d32;
+
+    @keyframes rotateSun {
+      0% { transform: rotate(0deg) translateY(0px); }
+      50% { transform: rotate(180deg) translateY(-10px); }
+      100% { transform: rotate(360deg) translateY(0px); }
     }
+
+    /* Trees */
+    .tree {
+      position: absolute;
+      bottom: 0;
+      width: 40px;
+      height: 100px;
+      background: #8B4513;
+      border-radius: 10px;
+      animation: grow 5s ease-out forwards;
+    }
+
+    .tree::after {
+      content: '';
+      position: absolute;
+      bottom: 80px;
+      left: -30px;
+      width: 100px;
+      height: 80px;
+      background: radial-gradient(circle, #006400, #32CD32);
+      border-radius: 50%;
+    }
+
+    @keyframes grow {
+      0% { height: 0; }
+      100% { height: 100px; }
+    }
+
+    /* Birds */
+    .bird {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background: #ffdd00;
+      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+      animation: fly linear infinite;
+    }
+
+    @keyframes fly {
+      0% { transform: translateX(-50px) translateY(50px) rotate(0deg); }
+      50% { transform: translateX(500px) translateY(-50px) rotate(20deg); }
+      100% { transform: translateX(1000px) translateY(50px) rotate(0deg); }
+    }
+
+    /* Dashboard cards */
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      z-index: 10;
+    }
+
     .card {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
-      margin: 15px 0;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      transition: transform 0.2s;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 20px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+      backdrop-filter: blur(5px);
+      position: relative;
+      overflow: hidden;
     }
+
     .card:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
     }
+
     .card h2 {
-      color: #388e3c;
-      margin-bottom: 10px;
+      font-size: 1.6rem;
+      color: #006400;
+      margin-bottom: 12px;
     }
+
     .card p {
-      font-size: 1.5rem;
-      margin: 0;
-    }
-    button {
-      padding: 10px 25px;
-      margin-top: 10px;
-      cursor: pointer;
-      background: #66bb6a;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      font-size: 1rem;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background: #43a047;
-    }
-    #led {
+      font-size: 1.8rem;
       font-weight: bold;
-      font-size: 1.3rem;
+      color: #228B22;
     }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 25px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      color: white;
+      background: linear-gradient(45deg, #32CD32, #00FF7F);
+      transition: all 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #32CD32;
+    }
+
+    /* Grass at bottom */
+    .grass {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 80px;
+      background: repeating-linear-gradient(
+        to right,
+        #228B22,
+        #228B22 5px,
+        #32CD32 5px,
+        #32CD32 10px
+      );
+      z-index: 5;
+    }
+
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Smart Environment Dashboard</h1>
+
+  <div class="sun"></div>
+
+  <!-- Trees -->
+  <div class="tree" style="left: 5%; animation-delay: 0s;"></div>
+  <div class="tree" style="left: 15%; animation-delay: 0.5s;"></div>
+  <div class="tree" style="left: 30%; animation-delay: 1s;"></div>
+  <div class="tree" style="left: 45%; animation-delay: 1.5s;"></div>
+  <div class="tree" style="left: 60%; animation-delay: 2s;"></div>
+  <div class="tree" style="left: 75%; animation-delay: 2.5s;"></div>
+
+  <!-- Birds -->
+  <div class="bird" style="top:50px; left:0; animation-duration: 12s;"></div>
+  <div class="bird" style="top:100px; left:100px; animation-duration: 10s;"></div>
+  <div class="bird" style="top:150px; left:200px; animation-duration: 15s;"></div>
+
+  <!-- Grass -->
+  <div class="grass"></div>
+
+  <!-- Dashboard -->
+  <div class="dashboard">
     <div class="card">
-      <h2>Temperature</h2>
+      <h2>🌡 Temperature</h2>
       <p id="temp">-- °C</p>
     </div>
     <div class="card">
-      <h2>Humidity</h2>
+      <h2>💧 Humidity</h2>
       <p id="humidity">-- %</p>
     </div>
     <div class="card">
-      <h2>LED Status</h2>
+      <h2>💡 LED Status</h2>
       <p id="led">OFF</p>
       <button onclick="toggleLED()">Toggle LED</button>
     </div>
     <div class="card">
-      <h2>AI Prediction</h2>
+      <h2>🤖 AI Prediction</h2>
       <p id="prediction">--</p>
     </div>
   </div>
 
   <script>
-    // Base URL for RobotNinja API
     const baseURL = "https://iot.roboninja.in/index.php";
     const UID = "VC11";
+    let ledState = false;
 
-    let ledState = false; // false = OFF, true = ON
-
-    // Fetch Temperature
     async function getTemperature() {
-      try {
-        const res = await fetch(`${baseURL}?action=read&UID=${UID}&Temperature`);
-        const data = await res.json();
-        return parseFloat(data.Value);
-      } catch (err) {
-        console.error("Temperature fetch error:", err);
-        return null;
-      }
+      const res = await fetch(`${baseURL}?action=read&UID=${UID}&Temperature`);
+      const data = await res.json();
+      return parseFloat(data.Value);
     }
 
-    // Fetch Humidity
     async function getHumidity() {
-      try {
-        const res = await fetch(`${baseURL}?action=read&UID=${UID}&Humidity`);
-        const data = await res.json();
-        return parseFloat(data.Value);
-      } catch (err) {
-        console.error("Humidity fetch error:", err);
-        return null;
-      }
+      const res = await fetch(`${baseURL}?action=read&UID=${UID}&Humidity`);
+      const data = await res.json();
+      return parseFloat(data.Value);
     }
 
-    // Update dashboard values
     async function updateDashboard() {
       const temp = await getTemperature();
       const hum = await getHumidity();
 
-      if(temp !== null) document.getElementById("temp").innerText = temp + " °C";
-      if(hum !== null) document.getElementById("humidity").innerText = hum + " %";
+      document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
+      document.getElementById("humidity").innerText = hum.toFixed(1) + " %";
 
-      // AI prediction logic
-      let prediction = "Comfortable";
-      if(temp > 30) prediction = "Too Hot";
-      else if(hum > 70) prediction = "Humid";
+      let prediction = "✨ Perfect Conditions ✨";
+      if (temp > 35) prediction = "🔥 Too Hot!";
+      else if (temp < 20) prediction = "❄ Too Cold!";
+      else if (hum > 70) prediction = "💦 Humid!";
+      else if (hum < 30) prediction = "🌵 Dry!";
+
       document.getElementById("prediction").innerText = prediction;
     }
 
-    // Toggle LED
     async function toggleLED() {
       ledState = !ledState;
-      document.getElementById("led").innerText = ledState ? "ON" : "OFF";
-
-      // Send LED state to ESP8266 via RobotNinja Write API using D1
       const ledValue = ledState ? 1 : 0;
-      try {
-        await fetch(`${baseURL}?action=write&UID=${UID}&D1=${ledValue}`);
-      } catch(err) {
-        console.error("LED toggle error:", err);
-      }
+      document.getElementById("led").innerText = ledState ? "ON" : "OFF";
+      document.getElementById("led").style.color = ledState ? "#32CD32" : "#ff5555";
+      await fetch(`${baseURL}?action=write&UID=${UID}&D1=${ledValue}`);
     }
 
-    // Update every 2 seconds
     setInterval(updateDashboard, 2000);
-    updateDashboard(); // initial load
+    updateDashboard();
   </script>
+
 </body>
 </html>
