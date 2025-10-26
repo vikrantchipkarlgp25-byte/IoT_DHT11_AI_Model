@@ -7,13 +7,14 @@ NinjaIoT iot;
 //first search "DHT sensor library" in library manager by Adafruit
 //and install it
 
-#define DHTPIN D3   // connect DHT11 to pin D3   
+#define DHTPIN D3   // connect DHT11 to pin D3   
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
 void setup() {
   Serial.begin(115200);
   iot.connect(wifiuser, pass, uid);    //link:   https://iot.roboninja.in/
+  Serial.println(WiFi.localIP());
   dht.begin();
 }
 

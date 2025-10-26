@@ -1,247 +1,191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🌿 Nature Environment Dashboard 🌿</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌿 Smart Nature AI Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ml5/0.12.2/ml5.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      height: 100vh;
-      width: 100vw;
-      overflow: hidden;
-      background: linear-gradient(to top, #87ceeb 0%, #c0f0f0 70%, #ffffff 100%);
-      position: relative;
-    }
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: linear-gradient(to top, #a3d9a5 0%, #dff9fb 70%, #ffffff 100%);
+  color: #054d1d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    /* Sun */
-    .sun {
-      position: absolute;
-      top: 50px;
-      right: 50px;
-      width: 120px;
-      height: 120px;
-      background: radial-gradient(circle, #FFD700, #FFA500);
-      border-radius: 50%;
-      box-shadow: 0 0 100px #FFD700;
-      animation: rotateSun 30s linear infinite;
-    }
+.sun {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #FFD700, #FFA500);
+  border-radius: 50%;
+  box-shadow: 0 0 100px #FFD700;
+  animation: rotateSun 30s linear infinite;
+}
+@keyframes rotateSun {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
-    @keyframes rotateSun {
-      0% { transform: rotate(0deg) translateY(0px); }
-      50% { transform: rotate(180deg) translateY(-10px); }
-      100% { transform: rotate(360deg) translateY(0px); }
-    }
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 280px);
+  grid-template-rows: repeat(2, 250px);
+  gap: 25px;
+  z-index: 10;
+  position: relative;
+}
 
-    /* Trees */
-    .tree {
-      position: absolute;
-      bottom: 0;
-      width: 40px;
-      height: 100px;
-      background: #8B4513;
-      border-radius: 10px;
-      animation: grow 5s ease-out forwards;
-    }
+.card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+.card h2 {
+  font-size: 1.5rem;
+  color: #006400;
+  margin-bottom: 12px;
+}
+.card p {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #228B22;
+  transition: all 0.4s ease;
+}
 
-    .tree::after {
-      content: '';
-      position: absolute;
-      bottom: 80px;
-      left: -30px;
-      width: 100px;
-      height: 80px;
-      background: radial-gradient(circle, #006400, #32CD32);
-      border-radius: 50%;
-    }
+button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: white;
+  background: linear-gradient(45deg, #32CD32, #00FF7F);
+  transition: all 0.3s;
+}
+button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #32CD32;
+}
 
-    @keyframes grow {
-      0% { height: 0; }
-      100% { height: 100px; }
-    }
-
-    /* Birds */
-    .bird {
-      position: absolute;
-      width: 25px;
-      height: 25px;
-      background: #ffdd00;
-      clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-      animation: fly linear infinite;
-    }
-
-    @keyframes fly {
-      0% { transform: translateX(-50px) translateY(50px) rotate(0deg); }
-      50% { transform: translateX(500px) translateY(-50px) rotate(20deg); }
-      100% { transform: translateX(1000px) translateY(50px) rotate(0deg); }
-    }
-
-    /* Dashboard cards */
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-      position: absolute;
-      top: 50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      z-index: 10;
-    }
-
-    .card {
-      background: rgba(255, 255, 255, 0.85);
-      border-radius: 20px;
-      padding: 25px;
-      text-align: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      transition: transform 0.3s, box-shadow 0.3s;
-      backdrop-filter: blur(5px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-    }
-
-    .card h2 {
-      font-size: 1.6rem;
-      color: #006400;
-      margin-bottom: 12px;
-    }
-
-    .card p {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #228B22;
-    }
-
-    button {
-      margin-top: 15px;
-      padding: 10px 25px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      font-size: 1rem;
-      color: white;
-      background: linear-gradient(45deg, #32CD32, #00FF7F);
-      transition: all 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px #32CD32;
-    }
-
-    /* Grass at bottom */
-    .grass {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 80px;
-      background: repeating-linear-gradient(
-        to right,
-        #228B22,
-        #228B22 5px,
-        #32CD32 5px,
-        #32CD32 10px
-      );
-      z-index: 5;
-    }
-
-  </style>
+.grass {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: repeating-linear-gradient(to right, #228B22, #228B22 5px, #32CD32 5px, #32CD32 10px);
+  z-index: 5;
+}
+</style>
 </head>
 <body>
 
-  <div class="sun"></div>
+<div class="sun"></div>
+<div class="grass"></div>
 
-  <!-- Trees -->
-  <div class="tree" style="left: 5%; animation-delay: 0s;"></div>
-  <div class="tree" style="left: 15%; animation-delay: 0.5s;"></div>
-  <div class="tree" style="left: 30%; animation-delay: 1s;"></div>
-  <div class="tree" style="left: 45%; animation-delay: 1.5s;"></div>
-  <div class="tree" style="left: 60%; animation-delay: 2s;"></div>
-  <div class="tree" style="left: 75%; animation-delay: 2.5s;"></div>
-
-  <!-- Birds -->
-  <div class="bird" style="top:50px; left:0; animation-duration: 12s;"></div>
-  <div class="bird" style="top:100px; left:100px; animation-duration: 10s;"></div>
-  <div class="bird" style="top:150px; left:200px; animation-duration: 15s;"></div>
-
-  <!-- Grass -->
-  <div class="grass"></div>
-
-  <!-- Dashboard -->
-  <div class="dashboard">
-    <div class="card">
-      <h2>🌡 Temperature</h2>
-      <p id="temp">-- °C</p>
-    </div>
-    <div class="card">
-      <h2>💧 Humidity</h2>
-      <p id="humidity">-- %</p>
-    </div>
-    <div class="card">
-      <h2>💡 LED Status</h2>
-      <p id="led">OFF</p>
-      <button onclick="toggleLED()">Toggle LED</button>
-    </div>
-    <div class="card">
-      <h2>🤖 AI Prediction</h2>
-      <p id="prediction">--</p>
-    </div>
+<div class="dashboard">
+  <div class="card">
+    <h2>🌡 Temperature</h2>
+    <p id="temp">-- °C</p>
   </div>
+  <div class="card">
+    <h2>💧 Humidity</h2>
+    <p id="humidity">-- %</p>
+  </div>
+  <div class="card">
+    <h2>💡 LED Status</h2>
+    <p id="led">OFF</p>
+    <button onclick="toggleLED()">Toggle LED</button>
+  </div>
+  <div class="card">
+    <h2>🧠 AI Comfort Index</h2>
+    <p id="comfort">--%</p>
+    <p id="predictionText" style="font-size:1rem; color:#006400; margin-top:8px;">Analyzing...</p>
+  </div>
+</div>
 
-  <script>
-    const baseURL = "https://iot.roboninja.in/index.php";
-    const UID = "VC11";
-    let ledState = false;
+<script>
+const baseURL = "https://iot.roboninja.in/index.php";
+const UID = "VC11";
+let ledState = false;
 
-    async function getTemperature() {
-      const res = await fetch(`${baseURL}?action=read&UID=${UID}&Temperature`);
-      const data = await res.json();
-      return parseFloat(data.Value);
-    }
+// ML5 regression model
+const model = ml5.neuralNetwork({ task: 'regression', debug: false });
 
-    async function getHumidity() {
-      const res = await fetch(`${baseURL}?action=read&UID=${UID}&Humidity`);
-      const data = await res.json();
-      return parseFloat(data.Value);
-    }
+// Comfort AI function using ML5
+async function updateAI(temp, hum) {
+  // Add training data
+  const comfortValue = Math.max(0, 100 - Math.abs(temp - 25) * 2 - Math.abs(hum - 50) * 0.8);
+  model.addData({ temp, hum }, { comfort: comfortValue });
+  model.normalizeData();
+  await model.train({ epochs: 5 });
+  const prediction = await model.predict({ temp, hum });
+  const comfortPred = prediction[0].comfort.toFixed(1);
+  document.getElementById("comfort").innerText = comfortPred + "%";
 
-    async function updateDashboard() {
-      const temp = await getTemperature();
-      const hum = await getHumidity();
+  let text = "";
+  if (comfortPred > 85) text = "🌿 Perfectly comfortable!";
+  else if (comfortPred > 65) text = "🌤 Slightly warm but pleasant.";
+  else if (comfortPred > 45) text = "☁️ Slightly uncomfortable.";
+  else text = "🔥 Uncomfortable environment!";
+  document.getElementById("predictionText").innerText = text;
+}
 
-      document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
-      document.getElementById("humidity").innerText = hum.toFixed(1) + " %";
+// Fetch IoT data
+async function fetchSensorData() {
+  try {
+    const res = await fetch(`${baseURL}?action=read_all&UID=${UID}`);
+    const data = await res.json();
+    const temp = parseFloat(data.Temperature || 0);
+    const hum = parseFloat(data.Humidity || 0);
 
-      let prediction = "✨ Perfect Conditions ✨";
-      if (temp > 35) prediction = "🔥 Too Hot!";
-      else if (temp < 20) prediction = "❄ Too Cold!";
-      else if (hum > 70) prediction = "💦 Humid!";
-      else if (hum < 30) prediction = "🌵 Dry!";
+    document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
+    document.getElementById("humidity").innerText = hum.toFixed(1) + " %";
 
-      document.getElementById("prediction").innerText = prediction;
-    }
+    updateAI(temp, hum);
+  } catch (err) {
+    console.error("Error fetching data:", err);
+  }
+}
 
-    async function toggleLED() {
-      ledState = !ledState;
-      const ledValue = ledState ? 1 : 0;
-      document.getElementById("led").innerText = ledState ? "ON" : "OFF";
-      document.getElementById("led").style.color = ledState ? "#32CD32" : "#ff5555";
-      await fetch(`${baseURL}?action=write&UID=${UID}&D1=${ledValue}`);
-    }
+// LED toggle
+async function toggleLED() {
+  ledState = !ledState;
+  const value = ledState ? 1 : 0;
+  document.getElementById("led").innerText = ledState ? "ON" : "OFF";
+  document.getElementById("led").style.color = ledState ? "#32CD32" : "#ff5555";
+  try {
+    await fetch(`${baseURL}?action=write&UID=${UID}&D1=${value}`);
+  } catch (err) {
+    console.error("LED toggle failed:", err);
+  }
+}
 
-    setInterval(updateDashboard, 2000);
-    updateDashboard();
-  </script>
+// Update every 2s
+setInterval(fetchSensorData, 2000);
+fetchSensorData();
+</script>
 
 </body>
 </html>
