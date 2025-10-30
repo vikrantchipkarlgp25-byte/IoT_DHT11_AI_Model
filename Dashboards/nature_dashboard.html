@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌿 Smart Nature AI Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ml5/0.12.2/ml5.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: linear-gradient(to top, #a3d9a5 0%, #dff9fb 70%, #ffffff 100%);
+  color: #054d1d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.sun {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #FFD700, #FFA500);
+  border-radius: 50%;
+  box-shadow: 0 0 100px #FFD700;
+  animation: rotateSun 30s linear infinite;
+}
+@keyframes rotateSun {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 280px);
+  grid-template-rows: repeat(2, 250px);
+  gap: 25px;
+  z-index: 10;
+  position: relative;
+}
+
+.card {
+  background: rgba(255,255,255,0.85);
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+}
+.card h2 {
+  font-size: 1.5rem;
+  color: #006400;
+  margin-bottom: 12px;
+}
+.card p {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #228B22;
+  transition: all 0.4s ease;
+}
+
+.grass {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: repeating-linear-gradient(to right, #228B22, #228B22 5px, #32CD32 5px, #32CD32 10px);
+  z-index: 5;
+}
+</style>
+</head>
+<body>
+
+<div class="sun"></div>
+<div class="grass"></div>
+
+<div class="dashboard">
+  <div class="card">
+    <h2>🌡 Temperature</h2>
+    <p id="temp">-- °C</p>
+  </div>
+  <div class="card">
+    <h2>💧 Humidity</h2>
+    <p id="humidity">-- %</p>
+  </div>
+  <div class="card">
+    <h2>🕒 Time</h2>
+    <p id="time">--:--:--</p>
+  </div>
+  <div class="card">
+    <h2>🧠 AI Comfort Index</h2>
+    <p id="comfort">--%</p>
+    <p id="predictionText" style="font-size:1rem; color:#006400; margin-top:8px;">Loading data...</p>
+  </div>
+</div>
+
+<script>
+let sensorData = [];
+let index = 0;
+let model;
+let dataLoaded = false;
+
+// Initialize model
+model = ml5.neuralNetwork({ task: 'regression', debug: false });
+
+// Load and train model from CSV
+async function loadAndTrain() {
+  try {
+    const response = await fetch("data.csv");
+    const csvText = await response.text();
+
+    const parsed = Papa.parse(csvText, { header: true, dynamicTyping: true });
+    sensorData = parsed.data.filter(r => r.Temperature && r.Humidity);
+
+    // Add training data
+    sensorData.forEach(row => {
+      const temp = parseFloat(row.Temperature);
+      const hum = parseFloat(row.Humidity);
+      const comfort = Math.max(0, 100 - Math.abs(temp - 25) * 2 - Math.abs(hum - 50) * 0.8);
+      model.addData({ temp, hum }, { comfort });
+    });
+
+    model.normalizeData();
+    await model.train({ epochs: 20 });
+    dataLoaded = true;
+
+    document.getElementById("predictionText").innerText = "✅ Data loaded! AI running...";
+    setInterval(showNextReading, 2000);
+  } catch (err) {
+    console.error("Error loading CSV:", err);
+    document.getElementById("predictionText").innerText = "⚠️ Couldn't load data.csv.";
+  }
+}
+
+// Predict comfort
+async function predictComfort(temp, hum) {
+  const results = await model.predict({ temp, hum });
+  const comfort = results[0].comfort.toFixed(1);
+  document.getElementById("comfort").innerText = comfort + "%";
+
+  let text;
+  if (comfort > 85) text = "🌿 Perfectly comfortable!";
+  else if (comfort > 65) text = "🌤 Slightly warm but pleasant.";
+  else if (comfort > 45) text = "☁️ Slightly uncomfortable.";
+  else text = "🔥 Uncomfortable environment!";
+  document.getElementById("predictionText").innerText = text;
+}
+
+// Show next reading
+async function showNextReading() {
+  if (!dataLoaded || sensorData.length === 0) return;
+  const row = sensorData[index];
+  const temp = parseFloat(row.Temperature);
+  const hum = parseFloat(row.Humidity);
+  const time = row.Time || new Date().toLocaleTimeString();
+
+  document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
+  document.getElementById("humidity").innerText = hum.toFixed(1) + " %";
+  document.getElementById("time").innerText = time;
+
+  await predictComfort(temp, hum);
+  index = (index + 1) % sensorData.length;
+}
+
+// Start
+loadAndTrain();
+</script>
+
+</body>
+</html>
