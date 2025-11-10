@@ -111,7 +111,7 @@ This model is trained using a basic supervised learning algorithm that classifie
 ## Submission Details
 - **GitHub Repository:** *[Insert your repo link here]*  
 - **Web Dashboard Link:** *[Insert hosting or local instructions]*  
-- **Mobile App (.aia file):** *[Insert MIT App Inventor share link]*  
+- **Mobile App (.aia file):** *https://x.thunkable.com/projectPage/68f47e6ad2117f94eaa50e1c*  
 
 ---
 
