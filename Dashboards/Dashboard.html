@@ -4,10 +4,8 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>🌿 Smart Nature AI Dashboard</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ml5/0.12.2/ml5.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
@@ -89,6 +87,10 @@ button:hover {
   box-shadow: 0 0 15px #32CD32;
 }
 
+.toggle {
+  background: linear-gradient(45deg, #007bff, #00bfff);
+}
+
 .grass {
   position: absolute;
   bottom: 0;
@@ -114,12 +116,12 @@ button:hover {
     <p id="humidity">-- %</p>
   </div>
   <div class="card">
-    <h2>💡 LED Status</h2>
-    <p id="led">OFF</p>
-    <button onclick="toggleLED()">Toggle LED</button>
+    <h2>🌀 Fan</h2>
+    <p id="fanStatus">OFF</p>
+    <button class="toggle" onclick="toggleFan()">Toggle Manually</button>
   </div>
   <div class="card">
-    <h2>🧠 AI Comfort Index</h2>
+    <h2>🧠 Comfort Index</h2>
     <p id="comfort">--%</p>
     <p id="predictionText" style="font-size:1rem; color:#006400; margin-top:8px;">Analyzing...</p>
   </div>
@@ -128,61 +130,72 @@ button:hover {
 <script>
 const baseURL = "https://iot.roboninja.in/index.php";
 const UID = "VC11";
-let ledState = false;
+let fanState = false;
+const TEMP_THRESHOLD = 30; // temperature above which fan auto turns on
 
-// ML5 regression model
-const model = ml5.neuralNetwork({ task: 'regression', debug: false });
+// Calculate comfort (no ML, pure logic)
+function calculateComfort(temp, hum) {
+  return Math.max(0, 100 - Math.abs(temp - 25) * 2 - Math.abs(hum - 50) * 0.8);
+}
 
-// Comfort AI function using ML5
-async function updateAI(temp, hum) {
-  // Add training data
-  const comfortValue = Math.max(0, 100 - Math.abs(temp - 25) * 2 - Math.abs(hum - 50) * 0.8);
-  model.addData({ temp, hum }, { comfort: comfortValue });
-  model.normalizeData();
-  await model.train({ epochs: 5 });
-  const prediction = await model.predict({ temp, hum });
-  const comfortPred = prediction[0].comfort.toFixed(1);
-  document.getElementById("comfort").innerText = comfortPred + "%";
+// Update comfort UI
+function updateAI(temp, hum) {
+  const comfort = calculateComfort(temp, hum).toFixed(1);
+  document.getElementById("comfort").innerText = comfort + "%";
 
   let text = "";
-  if (comfortPred > 85) text = "🌿 Perfectly comfortable!";
-  else if (comfortPred > 65) text = "🌤 Slightly warm but pleasant.";
-  else if (comfortPred > 45) text = "☁️ Slightly uncomfortable.";
+  if (comfort > 85) text = "🌿 Perfectly comfortable!";
+  else if (comfort > 65) text = "🌤 Slightly warm but pleasant.";
+  else if (comfort > 45) text = "☁️ Slightly uncomfortable.";
   else text = "🔥 Uncomfortable environment!";
   document.getElementById("predictionText").innerText = text;
 }
 
-// Fetch IoT data
+// Send fan control command to IoT cloud
+async function setFanState(state) {
+  fanState = state;
+  document.getElementById("fanStatus").innerText = fanState ? "ON" : "OFF";
+  document.getElementById("fanStatus").style.color = fanState ? "#32CD32" : "#ff5555";
+  try {
+    await fetch(`${baseURL}?action=write&UID=${UID}&D1=${fanState ? 1 : 0}`);
+  } catch (err) {
+    console.error("Error writing fan state:", err);
+  }
+}
+
+// Manual toggle button
+function toggleFan() {
+  setFanState(!fanState);
+}
+
+// Fetch temperature and humidity data
 async function fetchSensorData() {
   try {
     const res = await fetch(`${baseURL}?action=read_all&UID=${UID}`);
     const data = await res.json();
+
     const temp = parseFloat(data.Temperature || 0);
     const hum = parseFloat(data.Humidity || 0);
 
     document.getElementById("temp").innerText = temp.toFixed(1) + " °C";
     document.getElementById("humidity").innerText = hum.toFixed(1) + " %";
 
+    // Auto fan control logic
+    if (temp > TEMP_THRESHOLD && !fanState) {
+      setFanState(true); // auto ON
+      console.log("Fan turned ON automatically due to high temp!");
+    } else if (temp <= TEMP_THRESHOLD && fanState) {
+      setFanState(false); // auto OFF
+      console.log("Fan turned OFF as temp is normal.");
+    }
+
     updateAI(temp, hum);
   } catch (err) {
-    console.error("Error fetching data:", err);
+    console.error("Error fetching sensor data:", err);
   }
 }
 
-// LED toggle
-async function toggleLED() {
-  ledState = !ledState;
-  const value = ledState ? 1 : 0;
-  document.getElementById("led").innerText = ledState ? "ON" : "OFF";
-  document.getElementById("led").style.color = ledState ? "#32CD32" : "#ff5555";
-  try {
-    await fetch(`${baseURL}?action=write&UID=${UID}&D1=${value}`);
-  } catch (err) {
-    console.error("LED toggle failed:", err);
-  }
-}
-
-// Update every 2s
+// Update every 2 seconds
 setInterval(fetchSensorData, 2000);
 fetchSensorData();
 </script>
