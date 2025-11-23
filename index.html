@@ -4,7 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Trinetra Dashboard</title>
+<<<<<<< HEAD:index.html
 
+=======
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
@@ -23,15 +26,27 @@
     display: flex;
     align-items: center;
     gap: 15px;
+<<<<<<< HEAD:index.html
+=======
+    box-sizing: border-box;
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
   }
 
   .logo {
     height: 50px;
     width: 50px;
+<<<<<<< HEAD:index.html
     background: url('your-logo.png');
     background-size: cover;
     background-position: center;
     border-radius: 12px;
+=======
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background-image: url('your-logo.png');
+    background-size: cover;
+    background-position: center;
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
     box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
   }
 
@@ -43,6 +58,10 @@
   .hero {
     text-align: center;
     margin-top: 10px;
+<<<<<<< HEAD:index.html
+=======
+    margin-bottom: 15px;
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
   }
 
   .hero h1 {
@@ -51,6 +70,15 @@
     text-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
   }
 
+<<<<<<< HEAD:index.html
+=======
+  .hero p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-top: -10px;
+  }
+
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
   .stats-container {
     display: flex;
     justify-content: center;
@@ -68,6 +96,16 @@
     text-align: center;
     border-radius: 25px;
     box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.35);
+<<<<<<< HEAD:index.html
+=======
+    transition: 0.3s ease;
+    transform: translateY(0px);
+  }
+
+  .stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0px 10px 30px rgba(0, 255, 0, 0.4);
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
   }
 
   .stat-value {
@@ -84,9 +122,16 @@
     color: black;
     padding: 25px;
     border-radius: 25px;
+<<<<<<< HEAD:index.html
     box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.3);
     min-height: 140px;
     font-size: 18px;
+=======
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
+    min-height: 140px;
+    font-size: 18px;
+    line-height: 1.4em;
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
   }
 
   .prediction-title {
@@ -95,16 +140,35 @@
     margin-bottom: 10px;
   }
 
+<<<<<<< HEAD:index.html
+=======
+  .wave {
+    width: 100%;
+    height: 200px;
+    background: url('https://i.imgur.com/jxWqIBf.png');
+    background-size: cover;
+    margin-top: 40px;
+  }
+
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
   .footer {
     text-align: center;
     padding: 10px;
     font-size: 12px;
     opacity: 0.7;
+<<<<<<< HEAD:index.html
     margin-bottom: 15px;
   }
 </style>
 </head>
 
+=======
+    margin-top: -40px;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
 <body>
 
 <div class="top-bar">
@@ -134,6 +198,7 @@
   <div id="predictionText">Fetching weather insights...</div>
 </div>
 
+<<<<<<< HEAD:index.html
 <div class="footer">© Trinetra • Har Mausam pe Nazar, Har Pal ki Khabar</div>
 
 <script>
@@ -202,6 +267,137 @@ async function updateData() {
 
 updateData();
 setInterval(updateData, 5000);
+=======
+<div class="wave"></div>
+
+<div class="footer">© Trinetra • Har Mausam pe Nazar, Har Pal ki Khabar</div>
+
+<script>
+  async function updateData() {
+    try {
+      // Put your actual UID here
+      const tempURL = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Temperature";
+      const humURL = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Humidity";
+
+      let temp = await fetch(tempURL).then(res => res.text());
+      let hum = await fetch(humURL).then(res => res.text());
+
+      document.getElementById("tempValue").textContent = temp + " °C";
+      document.getElementById("humiValue").textContent = hum + " %";
+
+      const t = parseFloat(temp);
+      const h = parseFloat(hum);
+
+      const tempInts = [
+        [16, 18], [19, 21], [22, 24], [25, 27], [28, 30], [31, 33],
+        [34, 36], [37, 39], [40, 42], [43, 45], [46, 48], [49, 50]
+      ];
+      const humInts = [
+        [20, 39], [40, 59], [60, 79], [80, 90]
+      ];
+      const predictions = {
+        0: {
+          0: "Cool and dry air. Dress warmly and use moisturizing skin care. Good day for walks but stay hydrated.",
+          1: "Cool weather with moderate humidity. Comfortable for activities. Light jacket recommended.",
+          2: "Cool and humid conditions. May feel clammy; wear breathable layers.",
+          3: "Cool with high humidity – can feel chilly and damp. Waterproof outerwear recommended."
+        },
+        1: {
+          0: "Mildly cool but dry. Good for jogging or errands. Hydrate and layer clothes.",
+          1: "Comfortable temp with balanced humidity. Perfect for outdoors.",
+          2: "Slight humidity with mild temp. May feel sticky; wear breathable clothes.",
+          3: "Humid and mild temp. Air feels heavy; avoid extended outdoor time."
+        },
+        
+        2: { // 22-24
+          0: "Pleasant warmth and dry air. Great for outdoor activity, drink water regularly.",
+          1: "Warm and comfortable with moderate humidity. Ideal for socializing outside.",
+          2: "Warm with noticeable humidity. Slight muggy feeling; stay hydrated.",
+          3: "Warm and humid – air feels heavy and sticky. Limit strenuous outdoor activities."
+        },
+        3: { // 25-27
+          0: "Warm and dry day – great for outdoor sports. Stay hydrated and wear sun protection.",
+          1: "Warm with moderate humidity – generally comfortable. Keep water handy.",
+          2: "Warm and humid, might feel sticky. Take breaks in shade and stay hydrated.",
+          3: "High humidity and warm – air feels heavy. Use fans indoors and drink plenty."
+        },
+        4: { // 28-30
+          0: "Hot and dry conditions. Avoid heat exhaustion – wear hats and avoid midday sun.",
+          1: "Hot with reasonable humidity. Great for pool time; keep water handy.",
+          2: "Hot and humid conditions may cause discomfort. Limit outdoor work midday.",
+          3: "Very hot and humid. Stay indoors if possible. Use cooling methods."
+        },
+        5: { // 31-33
+          0: "Very hot and dry – take precautions against dehydration and sunburn.",
+          1: "Very hot with moderate humidity – stay hydrated and reduce effort outdoors.",
+          2: "Extreme heat and high humidity; avoid outdoor exposure, drink water often.",
+          3: "Dangerously hot and humid conditions. Stay indoors and hydrated."
+        },
+        6: { // 34-36
+          0: "Extreme dry heat – risk of dehydration very high. Drink often and avoid outdoors.",
+          1: "Extreme heat with moderate moisture – stay indoors during peak hours.",
+          2: "Severe heat and humidity – health risks elevated. Stay cool and limit outdoor time.",
+          3: "Severe oppressive heat and humidity – stay indoors, drink fluids regularly."
+        },
+        7: { // 37-39
+          0: "Dangerously hot and dry. Minimize outdoor exposure. Drink water frequently.",
+          1: "Severe heat with moderate humidity. Use AC and wear light clothing.",
+          2: "Severe heat and high humidity. Extreme discomfort expected. Stay indoors.",
+          3: "Life-threatening heat and humidity. Seek cool shelter urgently."
+        },
+        8: { // 40-42
+          0: "Critical heat conditions – dry and dangerously hot. Follow health advisories.",
+          1: "Extremely hot and humid. Avoid leaving home except emergencies.",
+          2: "Extreme heat with high humidity, potentially life-threatening. Stay cool indoors.",
+          3: "Maximum alert for heat stress. Immediate cooling and hydration needed."
+        },
+        9: { // 43-45
+          0: "Unbearably hot and dry – take every precaution against heatstroke.",
+          1: "Critical temperature and moderate humidity. Remain indoors and hydrated.",
+          2: "Extreme heat with significant humidity. Avoid activity outdoors.",
+          3: "Fatal heat and humidity levels. Follow all health guidelines."
+        },
+        10: { // 46-48
+          0: "Near record heat levels with dry air. Stay indoors and hydrated.",
+          1: "Severe temp with moderate humidity. Health alerts likely issued.",
+          2: "Dangerous combo of heat and humidity. Avoid outdoor activities.",
+          3: "Life-threatening heat-humidity scenario. Follow emergency protocols."
+        },
+        11: {
+          0: "Extreme heat with dry air. Maximum caution needed.",
+          1: "Extreme heat with moderate moisture. High health risk.",
+          2: "Extremely dangerous heat and humidity. Avoid heat contact.",
+          3: "Record-breaking heat and humidity level. Follow emergency protocols."
+        }
+      };
+
+      function findIntervalIndex(value, intervals) {
+        for (let i = 0; i < intervals.length; i++) {
+          if (value >= intervals[i][0] && value <= intervals[i][1]) {
+            return i;
+          }
+        }
+        return -1;
+      }
+
+      const tempIndex = findIntervalIndex(t, tempInts);
+      const humIndex = findIntervalIndex(h, humInts);
+
+      let predMessage = "Weather conditions are unusual or out of range.";
+      if (tempIndex !== -1 && humIndex !== -1 && predictions[tempIndex] && predictions[tempIndex][humIndex]) {
+        predMessage = predictions[tempIndex][humIndex];
+      }
+
+      document.getElementById("predictionText").textContent = predMessage;
+
+    } catch (err) {
+      document.getElementById("predictionText").textContent = "Error fetching data.";
+    }
+  }
+
+  setInterval(updateData, 5000);
+  updateData();
+>>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
 </script>
 
 </body>
