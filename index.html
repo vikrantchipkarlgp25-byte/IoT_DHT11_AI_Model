@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trinetra Dashboard</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #062b06 0%, #0e4b0e 40%, #178a17 100%);
+    color: white;
+    overflow-x: hidden;
+  }
+
+  .top-bar {
+    width: 100%;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .logo {
+    height: 50px;
+    width: 50px;
+    background: url('your-logo.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+  }
+
+  .logo-text {
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  .hero {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+    font-weight: 700;
+    text-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+  }
+
+  .stats-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 25px;
+    padding: 10px;
+    flex-wrap: wrap;
+  }
+
+  .stat-card {
+    background: #caffc8;
+    color: black;
+    padding: 25px;
+    width: 220px;
+    text-align: center;
+    border-radius: 25px;
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.35);
+  }
+
+  .stat-value {
+    font-size: 28px;
+    margin-top: 10px;
+    font-weight: 700;
+  }
+
+  .prediction-panel {
+    width: 90%;
+    max-width: 700px;
+    margin: 35px auto;
+    background: #d4ffcc;
+    color: black;
+    padding: 25px;
+    border-radius: 25px;
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.3);
+    min-height: 140px;
+    font-size: 18px;
+  }
+
+  .prediction-title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    opacity: 0.7;
+    margin-bottom: 15px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <div class="logo"></div>
+  <div class="logo-text">Trinetra</div>
+</div>
+
+<div class="hero">
+  <h1>Check Your Surroundings</h1>
+  <p>Real-time weather intelligence powered by Trinetra</p>
+</div>
+
+<div class="stats-container">
+  <div class="stat-card">
+    TEMPERATURE
+    <div id="tempValue" class="stat-value">-- °C</div>
+  </div>
+
+  <div class="stat-card">
+    HUMIDITY
+    <div id="humiValue" class="stat-value">-- %</div>
+  </div>
+</div>
+
+<div class="prediction-panel">
+  <div class="prediction-title">Trinetra's Prediction</div>
+  <div id="predictionText">Fetching weather insights...</div>
+</div>
+
+<div class="footer">© Trinetra • Har Mausam pe Nazar, Har Pal ki Khabar</div>
+
+<script>
+async function updateData() {
+  try {
+    const tempURL = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Temperature";
+    const humURL  = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Humidity";
+
+    let temp = await fetch(tempURL).then(res => res.text());
+    let hum  = await fetch(humURL).then(res => res.text());
+
+    document.getElementById("tempValue").textContent = temp + " °C";
+    document.getElementById("humiValue").textContent = hum + " %";
+
+    const t = parseFloat(temp);
+    const h = parseFloat(hum);
+
+    let prediction = "Weather is acting weird, like your WiFi when guests come.";
+
+    if (t < 20) {
+      prediction = "It's cold enough to question your life choices. Wear layers before you turn into a human ice cream.";
+    }
+
+    else if (t >= 20 && t <= 26) {
+      prediction = "Perfect weather to go outside… unless you're allergic to going outside.";
+    }
+
+    else if (t >= 27 && t <= 32) {
+      prediction = "Warm and comfy. Great weather to go out, but keep a bottle of water unless you want to feel like dry Maggi.";
+    }
+
+    else if (t >= 33 && t <= 38) {
+      prediction = "It's hot. Like 'my phone is overheating while doing nothing' hot. Stay hydrated before *you* overheat.";
+    }
+
+    else if (t >= 39 && t <= 45) {
+      prediction = "Bro, this isn't weather. This is the final round of Khatron Ke Khiladi. Avoid the sun unless you're training to become toast.";
+    }
+
+    else if (t > 45) {
+      prediction = "🔥 WARNING: Step outside only if you want to respawn. Even the sun is saying, 'Bro calm down.'";
+    }
+
+    if (h < 30) {
+      prediction += " The air is so dry even your skin is filing a complaint.";
+    }
+
+    else if (h >= 30 && h <= 60) {
+      prediction += " Humidity is chill—your sweat glands can relax.";
+    }
+
+    else if (h > 60 && h <= 80) {
+      prediction += " Humidity is rising… it's basically stickiness season.";
+    }
+
+    else if (h > 80) {
+      prediction += " Humidity: 100%. Sweat: 100%. Motivation: 0%. Good luck.";
+    }
+
+    document.getElementById("predictionText").textContent = prediction;
+
+  } catch (error) {
+    document.getElementById("predictionText").textContent = "Error fetching weather data.";
+  }
+}
+
+updateData();
+setInterval(updateData, 5000);
+</script>
+
+</body>
+</html>
