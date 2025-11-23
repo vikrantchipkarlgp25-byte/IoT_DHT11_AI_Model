@@ -1,404 +1,327 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Trinetra Dashboard</title>
-<<<<<<< HEAD:index.html
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Trinetra — Final Dashboard</title>
 
-=======
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+  <style>
+    :root{
+      --bg-top:#063214;
+      --bg-mid:#0b4e1b;
+      --bg-bottom:#148326;
+      --card:#e6ffe9;
+      --muted:rgba(2,20,8,0.65);
+      --accent:#0a6a2a;
+      --glass-shadow: 12px 18px 48px rgba(0,0,0,0.20);
+      --soft-shadow: 0 8px 26px rgba(2,10,3,0.18);
+      --radius:20px;
+      --maxw:1100px;
+      --update-interval-ms:5000;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%; margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      color:#041b08;
+      background: linear-gradient(180deg,var(--bg-top) 0%,var(--bg-mid) 40%,var(--bg-bottom) 100%);
+    }
 
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(180deg, #062b06 0%, #0e4b0e 40%, #178a17 100%);
-    color: white;
-    overflow-x: hidden;
-  }
+    .panel{
+      width:100%;
+      max-width:var(--maxw);
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+      align-items:center;
+      padding:18px;
+    }
 
-  .top-bar {
-    width: 100%;
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-<<<<<<< HEAD:index.html
-=======
-    box-sizing: border-box;
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-  }
+    .topbar{ width:100%; display:flex; align-items:center; justify-content:flex-start; gap:12px; padding-left:6px; }
+    .brand{ display:flex; align-items:center; gap:12px; color:#dfffd7; font-weight:800; }
+    .logo{ width:48px; height:48px; border-radius:10px; overflow:hidden; background:rgba(255,255,255,0.05); box-shadow:0 6px 18px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center;}
+    .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
 
-  .logo {
-    height: 50px;
-    width: 50px;
-<<<<<<< HEAD:index.html
-    background: url('your-logo.png');
-    background-size: cover;
-    background-position: center;
-    border-radius: 12px;
-=======
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    background-image: url('your-logo.png');
-    background-size: cover;
-    background-position: center;
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-    box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
-  }
+    .hero{ text-align:center; margin-top:2px; }
+    .title{ margin:0; font-size:42px; font-weight:800; color:#f1fff3; text-shadow:0 8px 24px rgba(0,0,0,0.34); line-height:1.02; }
+    .subtitle{ margin-top:8px; color:rgba(235,255,235,0.9); font-weight:600; font-size:15px; }
 
-  .logo-text {
-    font-size: 28px;
-    font-weight: 700;
-  }
+    .center-block{ width:100%; display:flex; flex-direction:column; align-items:center; gap:14px; margin-top:8px; }
 
-  .hero {
-    text-align: center;
-    margin-top: 10px;
-<<<<<<< HEAD:index.html
-=======
-    margin-bottom: 15px;
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-  }
+    .stats-row{ width:100%; display:flex; justify-content:center; gap:20px; align-items:stretch; flex-wrap:wrap; padding:6px; }
+    .stat-card{ background:var(--card); min-width:220px; width:320px; border-radius:var(--radius); padding:18px 20px; box-shadow: var(--glass-shadow); display:flex; flex-direction:column; gap:10px; transition: transform 220ms ease, box-shadow 220ms ease; border:1px solid rgba(2,20,8,0.04); }
+    .stat-card:focus-within{ outline:3px solid rgba(10,120,40,0.08); outline-offset:6px; }
+    .stat-title{ font-size:12px; font-weight:700; letter-spacing:1px; color:var(--muted); text-transform:uppercase; }
+    .stat-value{ font-size:34px; font-weight:900; color:#071603; display:flex; align-items:baseline; gap:10px; }
+    .stat-unit{ font-size:14px; font-weight:800; color:var(--muted); opacity:0.92; }
+    .stat-desc{ margin-top:2px; color:rgba(4,18,8,0.66); font-weight:600; font-size:13px; }
 
-  .hero h1 {
-    font-size: 38px;
-    font-weight: 700;
-    text-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
-  }
+    .prediction{ width:100%; max-width:900px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,255,248,0.99)); border-radius:24px; padding:18px 22px; box-shadow:var(--soft-shadow); display:flex; flex-direction:column; gap:12px; border:1px solid rgba(2,20,8,0.04); min-height:140px; }
+    .prediction h3{ margin:0; font-size:20px; font-weight:800; color:#061b0f; }
+    .prediction p{ margin:0; color:rgba(4,20,8,0.86); font-weight:600; line-height:1.45; }
+    .meta{ margin-top:8px; font-size:13px; color:rgba(6,22,8,0.6); font-weight:600; display:flex; gap:12px; flex-wrap:wrap; }
+    .pill{ padding:8px 12px; border-radius:999px; background:rgba(5,35,15,0.05); font-weight:700; font-size:13px; color:rgba(6,28,10,0.9); border:1px solid rgba(6,28,10,0.04); display:inline-flex; gap:8px; align-items:center; }
 
-<<<<<<< HEAD:index.html
-=======
-  .hero p {
-    font-size: 16px;
-    opacity: 0.9;
-    margin-top: -10px;
-  }
+    .pulse{ display:inline-block; width:10px; height:10px; border-radius:50%; background: #0a7a2a; animation:pulse 2s infinite; }
+    @keyframes pulse { 0%{ box-shadow:0 0 0 0 rgba(10,122,42,0.45) } 70%{ box-shadow:0 0 0 16px rgba(10,122,42,0) } 100%{ box-shadow:0 0 0 0 rgba(10,122,42,0) } }
 
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-  .stats-container {
-    display: flex;
-    justify-content: center;
-    gap: 25px;
-    margin-top: 25px;
-    padding: 10px;
-    flex-wrap: wrap;
-  }
-
-  .stat-card {
-    background: #caffc8;
-    color: black;
-    padding: 25px;
-    width: 220px;
-    text-align: center;
-    border-radius: 25px;
-    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.35);
-<<<<<<< HEAD:index.html
-=======
-    transition: 0.3s ease;
-    transform: translateY(0px);
-  }
-
-  .stat-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0px 10px 30px rgba(0, 255, 0, 0.4);
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-  }
-
-  .stat-value {
-    font-size: 28px;
-    margin-top: 10px;
-    font-weight: 700;
-  }
-
-  .prediction-panel {
-    width: 90%;
-    max-width: 700px;
-    margin: 35px auto;
-    background: #d4ffcc;
-    color: black;
-    padding: 25px;
-    border-radius: 25px;
-<<<<<<< HEAD:index.html
-    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.3);
-    min-height: 140px;
-    font-size: 18px;
-=======
-    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35);
-    min-height: 140px;
-    font-size: 18px;
-    line-height: 1.4em;
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-  }
-
-  .prediction-title {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-<<<<<<< HEAD:index.html
-=======
-  .wave {
-    width: 100%;
-    height: 200px;
-    background: url('https://i.imgur.com/jxWqIBf.png');
-    background-size: cover;
-    margin-top: 40px;
-  }
-
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-  .footer {
-    text-align: center;
-    padding: 10px;
-    font-size: 12px;
-    opacity: 0.7;
-<<<<<<< HEAD:index.html
-    margin-bottom: 15px;
-  }
-</style>
+    @media (max-width:980px){ .title{ font-size:34px; } .stat-card{ width:44%; min-width:200px; } .prediction{ padding:16px; } }
+    @media (max-width:720px){ .title{ font-size:28px; } .topbar{ justify-content:center; } .stats-row{ gap:12px; } .stat-card{ width:100%; max-width:520px; } .panel{ padding:8px; } }
+  </style>
 </head>
-
-=======
-    margin-top: -40px;
-    margin-bottom: 20px;
-  }
-</style>
-</head>
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
 <body>
+  <div class="panel" role="application" aria-label="Trinetra dashboard">
+    <div class="topbar" aria-hidden="false">
+      <div class="brand">
+        <span class="logo" title="Trinetra logo">
+          <!-- local uploaded image path used as requested -->
+          <img src="your-logo.png" alt="Trinetra logo">
+        </span>
+        <span class="brand-name">Trinetra</span>
+      </div>
+    </div>
 
-<div class="top-bar">
-  <div class="logo"></div>
-  <div class="logo-text">Trinetra</div>
-</div>
+    <header class="hero" role="region" aria-labelledby="hero-title">
+      <h1 class="title" id="hero-title">Check Your Surroundings</h1>
+      <p class="subtitle">Real-time local readings — creative human-style insight below.</p>
+    </header>
 
-<div class="hero">
-  <h1>Check Your Surroundings</h1>
-  <p>Real-time weather intelligence powered by Trinetra</p>
-</div>
+    <main class="center-block" role="main">
+      <div class="stats-row" role="region" aria-label="Key indicators">
+        <article class="stat-card" id="temp-card" tabindex="0" aria-labelledby="temp-title" aria-describedby="temp-note">
+          <div class="stat-title" id="temp-title">Temperature</div>
+          <div class="stat-value" id="temp-value"><span id="tempValue">--</span><span class="stat-unit">°C</span></div>
+          <div class="stat-desc" id="temp-note">Range: <span id="tempRange">—</span></div>
+        </article>
 
-<div class="stats-container">
-  <div class="stat-card">
-    TEMPERATURE
-    <div id="tempValue" class="stat-value">-- °C</div>
+        <article class="stat-card" id="hum-card" tabindex="0" aria-labelledby="hum-title" aria-describedby="hum-note">
+          <div class="stat-title" id="hum-title">Humidity</div>
+          <div class="stat-value" id="hum-value"><span id="humValue">--</span><span class="stat-unit">%</span></div>
+          <div class="stat-desc" id="hum-note">Range: <span id="humRange">—</span></div>
+        </article>
+      </div>
+
+      <section class="prediction" id="prediction" aria-labelledby="pred-title">
+        <h3 id="pred-title">Trinetra's Interpretation <small style="font-weight:700;color:rgba(6,20,8,0.6);margin-left:8px">· creative & human</small></h3>
+        <p id="predictionText">Gathering range-based context <span class="pulse" aria-hidden="true"></span></p>
+        <div class="meta" aria-hidden="false">
+          <div class="pill">Temp: <strong id="predTempRange">—</strong></div>
+          <div class="pill">Hum: <strong id="predHumRange">—</strong></div>
+          <div class="pill">Updated: <strong id="predUpdated">—</strong></div>
+        </div>
+      </section>
+    </main>
   </div>
 
-  <div class="stat-card">
-    HUMIDITY
-    <div id="humiValue" class="stat-value">-- %</div>
-  </div>
-</div>
+  <script>
+  (function(){
+    // Config
+    const UID = "VC11";
+    const TEMP_URL = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Temperature`;
+    const HUM_URL  = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Humidity`;
+    const UPDATE_MS = 5000;
 
-<div class="prediction-panel">
-  <div class="prediction-title">Trinetra's Prediction</div>
-  <div id="predictionText">Fetching weather insights...</div>
-</div>
+    // Range definitions (range-based descriptions only for prediction)
+    const tempRanges = [
+      { label: "15–17°C", min: 15, max: 17, desc: "cool" },
+      { label: "18–20°C", min: 18, max: 20, desc: "mild" },
+      { label: "21–23°C", min: 21, max: 23, desc: "pleasant" },
+      { label: "24–26°C", min: 24, max: 26, desc: "warm" },
+      { label: "27–29°C", min: 27, max: 29, desc: "warm-to-hot" },
+      { label: "30–32°C", min: 30, max: 32, desc: "hot" },
+      { label: "33–35°C", min: 33, max: 35, desc: "very hot" },
+      { label: "36–39°C", min: 36, max: 39, desc: "extremely hot" }
+    ];
 
-<<<<<<< HEAD:index.html
-<div class="footer">© Trinetra • Har Mausam pe Nazar, Har Pal ki Khabar</div>
+    const humRanges = [
+      { label:"0–10%",  min:0,  max:10,  desc:"very dry" },
+      { label:"11–20%", min:11, max:20,  desc:"dry" },
+      { label:"21–30%", min:21, max:30,  desc:"low humidity" },
+      { label:"31–40%", min:31, max:40,  desc:"moderately low" },
+      { label:"41–50%", min:41, max:50,  desc:"moderate" },
+      { label:"51–60%", min:51, max:60,  desc:"mildly humid" },
+      { label:"61–70%", min:61, max:70,  desc:"humid" },
+      { label:"71–80%", min:71, max:80,  desc:"very humid" },
+      { label:"81–90%", min:81, max:90,  desc:"very high humidity" },
+      { label:"91–100%",min:91, max:100, desc:"extremely humid" }
+    ];
 
-<script>
-async function updateData() {
-  try {
-    const tempURL = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Temperature";
-    const humURL  = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Humidity";
+    // DOM
+    const tempValueEl = document.getElementById('tempValue');
+    const humValueEl = document.getElementById('humValue');
+    const tempRangeEl = document.getElementById('tempRange');
+    const humRangeEl = document.getElementById('humRange');
+    const predictionTextEl = document.getElementById('predictionText');
+    const predTempRangeEl = document.getElementById('predTempRange');
+    const predHumRangeEl = document.getElementById('predHumRange');
+    const predUpdatedEl = document.getElementById('predUpdated');
 
-    let temp = await fetch(tempURL).then(res => res.text());
-    let hum  = await fetch(humURL).then(res => res.text());
-
-    document.getElementById("tempValue").textContent = temp + " °C";
-    document.getElementById("humiValue").textContent = hum + " %";
-
-    const t = parseFloat(temp);
-    const h = parseFloat(hum);
-
-    let prediction = "Weather is acting weird, like your WiFi when guests come.";
-
-    if (t < 20) {
-      prediction = "It's cold enough to question your life choices. Wear layers before you turn into a human ice cream.";
+    // Helpers
+    function findTempRangeIndex(n) {
+      if (isNaN(n)) return -1;
+      for (let i=0;i<tempRanges.length;i++){
+        if (n >= tempRanges[i].min && n <= tempRanges[i].max) return i;
+      }
+      if (n < tempRanges[0].min) return 0;
+      return tempRanges.length - 1;
+    }
+    function findHumRangeIndex(n) {
+      if (isNaN(n)) return -1;
+      for (let i=0;i<humRanges.length;i++){
+        if (n >= humRanges[i].min && n <= humRanges[i].max) return i;
+      }
+      if (n < humRanges[0].min) return 0;
+      return humRanges.length - 1;
     }
 
-    else if (t >= 20 && t <= 26) {
-      prediction = "Perfect weather to go outside… unless you're allergic to going outside.";
-    }
+    // Deterministic picker
+    function pickIndexed(arr, index) { return arr[index % arr.length]; }
 
-    else if (t >= 27 && t <= 32) {
-      prediction = "Warm and comfy. Great weather to go out, but keep a bottle of water unless you want to feel like dry Maggi.";
-    }
+    // Phrase banks for style 3 (creative & friendly, balanced)
+    const opens = [
+      "There’s a gentle character to the air right now —",
+      "Take a breath: the atmosphere presents itself like this —",
+      "Picture the moment: the surrounding air feels as follows —",
+      "A quick note on conditions: the environment is currently described as —",
+      "Imagine stepping outside: the air greets you with —"
+    ];
+    const middles = [
+      "This pairing suggests a simple, approachable scene where nature seems to be nudging you gently.",
+      "It feels like a largely comfortable setting, inviting easy plans with a small caveat for certain activities.",
+      "It creates a calm backdrop for everyday things, with a subtle texture that you can feel on the skin.",
+      "You get a sensible balance — pleasant enough to step outside but not entirely without a small caveat.",
+      "There’s a friendly balance in the air that makes casual outdoor time perfectly reasonable today."
+    ];
+    const transitions = [
+      "For most people that translates to",
+      "Practically speaking, that means",
+      "In everyday terms, expect",
+      "So you’ll likely notice",
+      "Which typically feels like"
+    ];
+    const actions = [
+      "taking a light jacket for early mornings or evenings, and keeping water handy.",
+      "wearing breathable fabrics and planning relaxed outdoor moments rather than strenuous exercise.",
+      "choosing shade for extended outdoor tasks and sipping cool water intermittently.",
+      "preferring quick morning walks over midday exertion and staying comfortably hydrated throughout.",
+      "keeping an umbrella nearby if clouds look moody later, though it should remain optional."
+    ];
+    const closers = [
+      "Overall, it’s a friendly kind of day: easy to enjoy with small practical adjustments.",
+      "All told, a nicely human moment — comfortable, manageable, and a little evocative.",
+      "In short, the scene feels kindly: enjoyable for simple plans, with small practical notes.",
+      "Ultimately it’s one of those days that invites you out while reminding you to be a touch mindful.",
+      "Put simply: pleasant with minor nudges to stay sensible — the kind of air that’s easy to live in."
+    ];
+    const modifiers = [
+      "The air leans gentle and inviting.",
+      "There’s a mild, comforting warmth in the surroundings.",
+      "It carries a slightly dense but still approachable feel.",
+      "It can feel a little sticky if you linger, yet manageable.",
+      "A soft balance between warmth and moisture shapes the mood."
+    ];
 
-    else if (t >= 33 && t <= 38) {
-      prediction = "It's hot. Like 'my phone is overheating while doing nothing' hot. Stay hydrated before *you* overheat.";
-    }
-
-    else if (t >= 39 && t <= 45) {
-      prediction = "Bro, this isn't weather. This is the final round of Khatron Ke Khiladi. Avoid the sun unless you're training to become toast.";
-    }
-
-    else if (t > 45) {
-      prediction = "🔥 WARNING: Step outside only if you want to respawn. Even the sun is saying, 'Bro calm down.'";
-    }
-
-    if (h < 30) {
-      prediction += " The air is so dry even your skin is filing a complaint.";
-    }
-
-    else if (h >= 30 && h <= 60) {
-      prediction += " Humidity is chill—your sweat glands can relax.";
-    }
-
-    else if (h > 60 && h <= 80) {
-      prediction += " Humidity is rising… it's basically stickiness season.";
-    }
-
-    else if (h > 80) {
-      prediction += " Humidity: 100%. Sweat: 100%. Motivation: 0%. Good luck.";
-    }
-
-    document.getElementById("predictionText").textContent = prediction;
-
-  } catch (error) {
-    document.getElementById("predictionText").textContent = "Error fetching weather data.";
-  }
-}
-
-updateData();
-setInterval(updateData, 5000);
-=======
-<div class="wave"></div>
-
-<div class="footer">© Trinetra • Har Mausam pe Nazar, Har Pal ki Khabar</div>
-
-<script>
-  async function updateData() {
-    try {
-      // Put your actual UID here
-      const tempURL = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Temperature";
-      const humURL = "https://iot.roboninja.in/index.php?action=read&UID=VC11&Humidity";
-
-      let temp = await fetch(tempURL).then(res => res.text());
-      let hum = await fetch(humURL).then(res => res.text());
-
-      document.getElementById("tempValue").textContent = temp + " °C";
-      document.getElementById("humiValue").textContent = hum + " %";
-
-      const t = parseFloat(temp);
-      const h = parseFloat(hum);
-
-      const tempInts = [
-        [16, 18], [19, 21], [22, 24], [25, 27], [28, 30], [31, 33],
-        [34, 36], [37, 39], [40, 42], [43, 45], [46, 48], [49, 50]
-      ];
-      const humInts = [
-        [20, 39], [40, 59], [60, 79], [80, 90]
-      ];
-      const predictions = {
-        0: {
-          0: "Cool and dry air. Dress warmly and use moisturizing skin care. Good day for walks but stay hydrated.",
-          1: "Cool weather with moderate humidity. Comfortable for activities. Light jacket recommended.",
-          2: "Cool and humid conditions. May feel clammy; wear breathable layers.",
-          3: "Cool with high humidity – can feel chilly and damp. Waterproof outerwear recommended."
-        },
-        1: {
-          0: "Mildly cool but dry. Good for jogging or errands. Hydrate and layer clothes.",
-          1: "Comfortable temp with balanced humidity. Perfect for outdoors.",
-          2: "Slight humidity with mild temp. May feel sticky; wear breathable clothes.",
-          3: "Humid and mild temp. Air feels heavy; avoid extended outdoor time."
-        },
-        
-        2: { // 22-24
-          0: "Pleasant warmth and dry air. Great for outdoor activity, drink water regularly.",
-          1: "Warm and comfortable with moderate humidity. Ideal for socializing outside.",
-          2: "Warm with noticeable humidity. Slight muggy feeling; stay hydrated.",
-          3: "Warm and humid – air feels heavy and sticky. Limit strenuous outdoor activities."
-        },
-        3: { // 25-27
-          0: "Warm and dry day – great for outdoor sports. Stay hydrated and wear sun protection.",
-          1: "Warm with moderate humidity – generally comfortable. Keep water handy.",
-          2: "Warm and humid, might feel sticky. Take breaks in shade and stay hydrated.",
-          3: "High humidity and warm – air feels heavy. Use fans indoors and drink plenty."
-        },
-        4: { // 28-30
-          0: "Hot and dry conditions. Avoid heat exhaustion – wear hats and avoid midday sun.",
-          1: "Hot with reasonable humidity. Great for pool time; keep water handy.",
-          2: "Hot and humid conditions may cause discomfort. Limit outdoor work midday.",
-          3: "Very hot and humid. Stay indoors if possible. Use cooling methods."
-        },
-        5: { // 31-33
-          0: "Very hot and dry – take precautions against dehydration and sunburn.",
-          1: "Very hot with moderate humidity – stay hydrated and reduce effort outdoors.",
-          2: "Extreme heat and high humidity; avoid outdoor exposure, drink water often.",
-          3: "Dangerously hot and humid conditions. Stay indoors and hydrated."
-        },
-        6: { // 34-36
-          0: "Extreme dry heat – risk of dehydration very high. Drink often and avoid outdoors.",
-          1: "Extreme heat with moderate moisture – stay indoors during peak hours.",
-          2: "Severe heat and humidity – health risks elevated. Stay cool and limit outdoor time.",
-          3: "Severe oppressive heat and humidity – stay indoors, drink fluids regularly."
-        },
-        7: { // 37-39
-          0: "Dangerously hot and dry. Minimize outdoor exposure. Drink water frequently.",
-          1: "Severe heat with moderate humidity. Use AC and wear light clothing.",
-          2: "Severe heat and high humidity. Extreme discomfort expected. Stay indoors.",
-          3: "Life-threatening heat and humidity. Seek cool shelter urgently."
-        },
-        8: { // 40-42
-          0: "Critical heat conditions – dry and dangerously hot. Follow health advisories.",
-          1: "Extremely hot and humid. Avoid leaving home except emergencies.",
-          2: "Extreme heat with high humidity, potentially life-threatening. Stay cool indoors.",
-          3: "Maximum alert for heat stress. Immediate cooling and hydration needed."
-        },
-        9: { // 43-45
-          0: "Unbearably hot and dry – take every precaution against heatstroke.",
-          1: "Critical temperature and moderate humidity. Remain indoors and hydrated.",
-          2: "Extreme heat with significant humidity. Avoid activity outdoors.",
-          3: "Fatal heat and humidity levels. Follow all health guidelines."
-        },
-        10: { // 46-48
-          0: "Near record heat levels with dry air. Stay indoors and hydrated.",
-          1: "Severe temp with moderate humidity. Health alerts likely issued.",
-          2: "Dangerous combo of heat and humidity. Avoid outdoor activities.",
-          3: "Life-threatening heat-humidity scenario. Follow emergency protocols."
-        },
-        11: {
-          0: "Extreme heat with dry air. Maximum caution needed.",
-          1: "Extreme heat with moderate moisture. High health risk.",
-          2: "Extremely dangerous heat and humidity. Avoid heat contact.",
-          3: "Record-breaking heat and humidity level. Follow emergency protocols."
-        }
-      };
-
-      function findIntervalIndex(value, intervals) {
-        for (let i = 0; i < intervals.length; i++) {
-          if (value >= intervals[i][0] && value <= intervals[i][1]) {
-            return i;
-          }
-        }
-        return -1;
+    // Generate single ~80-word paragraph based on ranges (deterministic)
+    function generatePredictionText(tempIdx, humIdx, tempLabel, humLabel) {
+      if (tempIdx < 0 || humIdx < 0) {
+        return "Data is temporarily unavailable to form a contextual prediction — please check sensor connectivity.";
       }
 
-      const tempIndex = findIntervalIndex(t, tempInts);
-      const humIndex = findIntervalIndex(h, humInts);
+      const pairIndex = tempIdx * humRanges.length + humIdx;
 
-      let predMessage = "Weather conditions are unusual or out of range.";
-      if (tempIndex !== -1 && humIndex !== -1 && predictions[tempIndex] && predictions[tempIndex][humIndex]) {
-        predMessage = predictions[tempIndex][humIndex];
+      // pick phrase parts deterministically
+      const open = pickIndexed(opens, pairIndex + 1);
+      const middle = pickIndexed(middles, pairIndex + 2);
+      const transition = pickIndexed(transitions, pairIndex + 3);
+      const action = pickIndexed(actions, pairIndex + 4);
+      const closer = pickIndexed(closers, pairIndex + 5);
+      const modifier = pickIndexed(modifiers, pairIndex + 6);
+
+      const tDesc = tempRanges[tempIdx].desc;
+      const hDesc = humRanges[humIdx].desc;
+
+      // Craft one long paragraph. Aim ~80 words by design.
+      // Structure: opening clause + descriptors + modifier + middle clause + transition + action + closing thought.
+      let paragraph = `${open} ${tempLabel} (${tDesc}) paired with ${humLabel} (${hDesc}) paints a specific picture of the moment. ${modifier} ${middle} ${transition} in these conditions you can expect gentle effects on comfort and activity: ${action} At heart this combination reads like a friendly note about the world outside, nudging you toward small sensible choices while still leaving plenty of room for easy enjoyment. ${closer}`;
+
+      // Word count check; append small friendly filler deterministically if needed
+      const count = paragraph.trim().split(/\s+/).length;
+      if (count < 78) {
+        paragraph += " It’s a short, honest little observation offered like a note from a thoughtful neighbor.";
+      } else if (count > 90) {
+        // optionally trim a small last phrase if too long (rare)
+        paragraph = paragraph.split(' ').slice(0, 88).join(' ') + ".";
       }
-
-      document.getElementById("predictionText").textContent = predMessage;
-
-    } catch (err) {
-      document.getElementById("predictionText").textContent = "Error fetching data.";
+      return paragraph;
     }
-  }
 
-  setInterval(updateData, 5000);
-  updateData();
->>>>>>> 1c226870303a49835718a5a68d0117fde5d06701:Dashboards/index.html
-</script>
+    // Robust fetch for plain text endpoints; extracts numeric substrings if needed
+    async function fetchPlainNumber(url) {
+      try {
+        const r = await fetch(url + "&_=" + Date.now(), { method: "GET", mode: "cors", cache: "no-store" });
+        if (!r.ok) {
+          return { ok:false, error:`HTTP ${r.status}` };
+        }
+        const txt = (await r.text()).trim();
+        // extract first numeric occurrence (integers or decimals)
+        const m = txt.match(/-?\d+(\.\d+)?/);
+        if (m) {
+          return { ok:true, value: parseFloat(m[0]), raw: txt };
+        }
+        return { ok:false, error:"No numeric value found", raw: txt };
+      } catch (err) {
+        return { ok:false, error: err.message };
+      }
+    }
 
+    // Single refresh: fetch temperature and humidity, update UI and generate prediction
+    async function refreshOnce() {
+      // show interim hint
+      predictionTextEl.textContent = "Refreshing readings and composing a human-style interpretation...";
+      // fetch both in parallel
+      const [tRes, hRes] = await Promise.all([ fetchPlainNumber(TEMP_URL), fetchPlainNumber(HUM_URL) ]);
+
+      let tVal = NaN, hVal = NaN;
+      if (tRes.ok) tVal = tRes.value;
+      if (hRes.ok) hVal = hRes.value;
+
+      // Update numeric display (formatted)
+      tempValueEl.textContent = (isNaN(tVal) ? "—" : tVal.toFixed(1));
+      humValueEl.textContent  = (isNaN(hVal) ? "—" : Math.round(hVal));
+
+      // Determine range indices
+      const tIdx = findTempRangeIndex(Number(tVal));
+      const hIdx = findHumRangeIndex(Number(hVal));
+
+      const tLabel = (tIdx>=0? tempRanges[tIdx].label : "—");
+      const hLabel = (hIdx>=0? humRanges[hIdx].label : "—");
+
+      // update range UI
+      tempRangeEl.textContent = tLabel;
+      humRangeEl.textContent = hLabel;
+      predTempRangeEl.textContent = tLabel;
+      predHumRangeEl.textContent = hLabel;
+      predUpdatedEl.textContent = new Date().toLocaleTimeString();
+
+      // compose single ~80-word paragraph based on ranges only
+      const paragraph = generatePredictionText(tIdx, hIdx, tLabel, hLabel);
+      predictionTextEl.textContent = paragraph;
+    }
+
+    // Initial and interval
+    refreshOnce();
+    const intervalHandle = setInterval(refreshOnce, UPDATE_MS);
+
+    // Expose for debug
+    window.trinetra = { refreshOnce, tempRanges, humRanges, generatePredictionText };
+
+    // Notes:
+    // - If you encounter CORS blocking (Access-Control-Allow-Origin), the browser is preventing cross-origin calls.
+    //   Solutions: enable CORS on iot.roboninja.in, run a small server-side proxy, or test via a local proxy.
+  })();
+  </script>
 </body>
 </html>
