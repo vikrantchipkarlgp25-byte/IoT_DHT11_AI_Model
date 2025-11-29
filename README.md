@@ -97,16 +97,16 @@ This model is trained using a basic supervised learning algorithm that classifie
 ## Evaluation Criteria
 | Component | Marks |
 |------------|-------|
-| Functionality of Dashboard App | 60 |
-| Web Dashboard Design and Implementation | 20 |
+| Functionality of Dashboard App | 20 |
+| Web Dashboard Design and Implementation | 40 |
 | Hosting and Accessibility | 20 |
 | Multi-Microcontroller Integration | 20 |
 
 ---
 
 ## Submission Details
-- **GitHub Repository:** *[Insert your repo link here]*  
-- **Web Dashboard Link:** *[Insert hosting or local instructions]*  
+- **GitHub Repository:** https://github.com/vikrantchipkarlgp25-byte/IoT_DHT11_AI_Model.git  
+- **Web Dashboard Link:** https://vikrantchipkarlgp25-byte.github.io/IoT_DHT11_AI_Model/
 - **Mobile App (.aia file):** https://x.thunkable.com/projectPage/68f47e6ad2117f94eaa50e1c  
 
 ---
@@ -122,5 +122,5 @@ This model is trained using a basic supervised learning algorithm that classifie
 
 ## Author
 **Name:** Vikrant Vinayak Chipkar  
-**Institution:** Shikha Academy  
+**School:** Shikha Academy  
 **Course:** IoT Project – Final Assignment  
