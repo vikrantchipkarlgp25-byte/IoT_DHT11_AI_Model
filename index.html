@@ -24,31 +24,105 @@
 
   .wrap{ width:100%; max-width:var(--maxw); }
 
-  /* Top */
+  /* Hover effect for ALL cards */
+  .card, .mini {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card:hover, .mini:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 14px 32px rgba(0,0,0,0.22);
+  }
+
+  /* Topbar */
   .topbar{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
   .logo{ width:56px; height:56px; border-radius:12px; overflow:hidden; background:rgba(255,255,255,0.04); box-shadow:0 6px 18px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center;}
   .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
   .brand { color:#e9ffea; font-weight:800; font-size:20px; margin-left:6px; }
 
+  /* Hero */
   .hero{ text-align:center; margin:8px 0 20px; }
   .title{ color:#f1fff3; font-size:36px; margin:0; font-weight:900; text-shadow:0 6px 18px rgba(0,0,0,0.28); }
   .subtitle{ color:rgba(235,255,235,0.92); margin-top:6px; font-weight:600; font-size:14px; }
 
   /* Grid of metric cards */
-  .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin-top:18px; }
-  .card{ background:var(--card); border-radius:var(--radius); padding:18px; box-shadow:var(--glass-shadow); border:1px solid rgba(2,20,8,0.04); min-height:110px; display:flex; flex-direction:column; justify-content:space-between;}
-  .small-title{ font-size:12px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-  .big{ font-size:34px; font-weight:900; color:#081a0f; display:flex; align-items:baseline; gap:8px; }
-  .unit{ font-size:14px; color:var(--muted); font-weight:800; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px; margin-top:18px; }
 
-  /* Forecast mini cards (Yesterday / Tomorrow) */
-  .extras { display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; align-items:flex-start; }
-  .mini { background:#fff; border-radius:14px; padding:18px 20px; box-shadow:var(--soft-shadow); min-width:260px; max-width:360px; display:flex; flex-direction:column; align-items:flex-start; gap:10px; }
-  .mini h4{ margin:0; font-size:22px; font-weight:900; color:#0b3d20; } /* INCREASED SIZE */
-  .mini .val{ margin-top:4px; font-weight:900; font-size:28px; color:#083b1a; }
+  /* TOP 4 cards — bigger */
+  .card{
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:24px; /* increased */
+    box-shadow:var(--glass-shadow);
+    border:1px solid rgba(2,20,8,0.04);
+    min-height:140px; /* increased */
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .small-title{ font-size:13px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+  .big{ font-size:38px; font-weight:900; color:#081a0f; display:flex; align-items:baseline; gap:8px; }
+
+  .unit{ font-size:15px; color:var(--muted); font-weight:800; }
+
+  /* Extras */
+  .extras { display:flex; gap:18px; flex-wrap:wrap; margin-top:25px; align-items:flex-start; }
+
+  /* Bottom mini-cards — slightly smaller */
+  .mini{
+    background:#fff;
+    border-radius:14px;
+    padding:16px 18px; /* smaller */
+    box-shadow:var(--soft-shadow);
+    min-width:240px;
+    max-width:330px;
+    display:flex; flex-direction:column; align-items:flex-start; gap:8px;
+  }
+  .mini h4{ margin:0; font-size:20px; font-weight:900; color:#0b3d20; }
+  .mini .val{ margin-top:4px; font-weight:900; font-size:26px; color:#083b1a; }
 
   .datasrc { margin-top:6px; display:flex; flex-direction:column; gap:8px; align-items:center; justify-content:center; min-width:220px; }
   .datasrc .tag{ font-weight:800; color:#0b3d20; }
+
+  /* CLOCK */
+  .clockBox{
+    background:#fff;
+    box-shadow:var(--soft-shadow);
+    border-radius:50%;
+    width:180px;
+    height:180px;
+    display:flex; align-items:center; justify-content:center;
+    margin-top:8px;
+  }
+
+  #clockCanvas{
+    width:160px; height:160px;
+  }
+
+  /* NEW: Date / Day / Location section beside clock */
+  .clockInfo {
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-left:10px;
+    color:white;
+    min-width:200px;
+  }
+  .clockInfo .day {
+    font-size:22px;
+    font-weight:800;
+  }
+  .clockInfo .date {
+    font-size:16px;
+    margin-top:4px;
+    opacity:0.9;
+  }
+  .clockInfo .loc {
+    margin-top:10px;
+    background:rgba(255,255,255,0.12);
+    padding:6px 12px;
+    border-radius:10px;
+    font-weight:700;
+    font-size:14px;
+    width:fit-content;
+  }
 
   /* Interpretation */
   .prediction{ margin-top:26px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,255,248,0.99)); border-radius:20px; padding:22px; box-shadow:var(--soft-shadow); border:1px solid rgba(2,20,8,0.04); }
@@ -57,110 +131,178 @@
   .meta{ margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; color:rgba(6,22,8,0.6); font-weight:700; font-size:13px; }
   .pill{ padding:8px 12px; border-radius:999px; background:rgba(5,35,15,0.05); border:1px solid rgba(6,28,10,0.04); }
 
-  /* small responsive tweaks */
-  @media (max-width:720px){
-    .title{ font-size:28px; }
-    .mini{ width:100%; max-width:none; }
-    .grid{ grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
-  }
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="logo"><img src="your-logo.png" alt="Trinetra logo"></div>
-      <div class="brand">Trinetra</div>
-    </div>
+<div class="wrap">
 
-    <div class="hero">
-      <h1 class="title">Environmental Dashboard</h1>
-      <div class="subtitle">Real-time local readings + cleaner, safer presentation</div>
-    </div>
-
-    <!-- METRICS -->
-    <section class="grid" aria-label="Key metrics">
-      <div class="card" id="card-temp">
-        <div>
-          <div class="small-title">Temperature</div>
-          <div class="big"><span id="tempValue">—</span><span class="unit">°C</span></div>
-        </div>
-        <div class="note" style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Live reading (UID: <strong>VC11</strong>)</div>
-      </div>
-
-      <div class="card" id="card-hum">
-        <div>
-          <div class="small-title">Humidity</div>
-          <div class="big"><span id="humValue">—</span><span class="unit">%</span></div>
-        </div>
-        <div class="note" style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Relative humidity</div>
-      </div>
-
-      <div class="card" id="card-feels">
-        <div>
-          <div class="small-title">Heat Index</div>
-          <div class="big"><span id="feelsValue">—</span><span class="unit">°C</span></div>
-        </div>
-        <div class="note" style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Feels-like from T + H</div>
-      </div>
-
-      <div class="card" id="card-comfort">
-        <div>
-          <div class="small-title">Comfort Level</div>
-          <div class="big"><span id="comfortValue">—</span></div>
-        </div>
-        <div class="note" style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Stickiness / comfort score</div>
-      </div>
-    </section>
-
-    <!-- Yesterday / Tomorrow / Source -->
-    <div class="extras">
-      <div class="mini" aria-label="Yesterday average temperature">
-        <h4>Yesterday — Avg Temp</h4>
-        <div class="val" id="yesterdayTemp">— °C</div>
-        <div style="font-size:12px;color:rgba(6,22,8,0.6);">Local mean temperature (Mumbai)</div>
-      </div>
-
-      <div class="mini" aria-label="Tomorrow expected temperature">
-        <h4>Tomorrow — Expected</h4>
-        <div class="val" id="tomorrowTemp">— °C</div>
-        <div style="font-size:12px;color:rgba(6,22,8,0.6);">Model-based daytime expectation</div>
-      </div>
-
-      <div class="mini datasrc" style="align-items:center;">
-        <div class="tag">Data Source</div>
-        <div style="font-weight:800;color:#0b3d20">Open-Meteo</div>
-        <button id="refreshWeatherBtn" style="margin-top:10px;background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:800;">Refresh Weather</button>
-        <div class="note" id="weatherNote" style="font-size:12px;color:rgba(6,22,8,0.6);margin-top:6px">Mumbai (auto)</div>
-      </div>
-    </div>
-
-    <!-- Interpretation -->
-    <section class="prediction" aria-labelledby="pred-title">
-      <h3 id="pred-title">Trinetra's Interpretation · creative & human</h3>
-      <p id="predictionText">Gathering range-based context <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#0a7a2a;box-shadow:0 0 14px rgba(10,122,42,0.28);margin-left:8px;"></span></p>
-      <div class="meta" aria-hidden="false">
-        <div class="pill">Updated: <strong id="predUpdated">—</strong></div>
-        <div class="pill">Temp Range: <strong id="predTempRange">—</strong></div>
-        <div class="pill">Hum Range: <strong id="predHumRange">—</strong></div>
-      </div>
-    </section>
+  <div class="topbar">
+    <div class="logo"><img src="your-logo.png" alt="Trinetra logo"></div>
+    <div class="brand">Trinetra</div>
   </div>
+
+  <div class="hero">
+    <h1 class="title">Environmental Dashboard</h1>
+    <div class="subtitle">Real-time local readings + cleaner, safer presentation</div>
+  </div>
+
+  <!-- TOP CARDS -->
+  <section class="grid" aria-label="Key metrics">
+
+    <div class="card" id="card-temp">
+      <div>
+        <div class="small-title">Temperature</div>
+        <div class="big"><span id="tempValue">—</span><span class="unit">°C</span></div>
+      </div>
+      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Live Reading</div>
+    </div>
+
+    <div class="card" id="card-hum">
+      <div>
+        <div class="small-title">Humidity</div>
+        <div class="big"><span id="humValue">—</span><span class="unit">%</span></div>
+      </div>
+      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Relative Humidity</div>
+    </div>
+
+    <div class="card" id="card-feels">
+      <div>
+        <div class="small-title">Heat Index</div>
+        <div class="big"><span id="feelsValue">—</span><span class="unit">°C</span></div>
+      </div>
+      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Feels-like from T + H</div>
+    </div>
+
+    <div class="card" id="card-comfort">
+      <div>
+        <div class="small-title">Comfort Level</div>
+        <div class="big"><span id="comfortValue">—</span></div>
+      </div>
+      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Stickiness / comfort score</div>
+    </div>
+
+  </section>
+
+  <!-- Extras Section -->
+  <div class="extras">
+
+    <div class="mini">
+      <h4>Yesterday — Avg Temp</h4>
+      <div class="val" id="yesterdayTemp">— °C</div>
+      <div style="font-size:12px;color:rgba(6,22,8,0.6);">Local mean temperature (Mumbai)</div>
+    </div>
+
+    <div class="mini">
+      <h4>Tomorrow — Expected</h4>
+      <div class="val" id="tomorrowTemp">— °C</div>
+      <div style="font-size:12px;color:rgba(6,22,8,0.6);">Model-based daytime expectation</div>
+    </div>
+
+    <div class="mini datasrc">
+      <div class="tag">Data Source</div>
+      <div style="font-weight:800;color:#0b3d20">Open-Meteo</div>
+      <button id="refreshWeatherBtn" style="margin-top:10px;background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:800;">Refresh Weather</button>
+      <div class="note" id="weatherNote" style="font-size:12px;color:rgba(6,22,8,0.6);margin-top:6px">Mumbai (auto)</div>
+    </div>
+
+    <!-- Clock + NEW info block -->
+    <div style="display:flex;gap:16px;align-items:center;margin-left:auto;">
+      <div class="clockBox">
+        <canvas id="clockCanvas" width="160" height="160"></canvas>
+      </div>
+
+      <div class="clockInfo">
+        <div class="day" id="clockDay">—</div>
+        <div class="date" id="clockDate">—</div>
+        <div class="loc" id="userLocation">📍 Detecting...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Prediction -->
+  <section class="prediction" aria-labelledby="pred-title">
+    <h3 id="pred-title">Trinetra's Interpretation · creative & human</h3>
+    <p id="predictionText">Gathering range-based context…</p>
+    <div class="meta">
+      <div class="pill">Updated: <strong id="predUpdated">—</strong></div>
+      <div class="pill">Temp Range: <strong id="predTempRange">—</strong></div>
+      <div class="pill">Hum Range: <strong id="predHumRange">—</strong></div>
+    </div>
+  </section>
+
+</div>
 
 <script>
 (() => {
-  // ---- CONFIG ----
-  const UID = "VC11";
-  // Use the endpoints you provided
+
+/* --------------------------- DATE + DAY BLOCK --------------------------- */
+function updateDateBlock() {
+  const now = new Date();
+  document.getElementById("clockDay").textContent =
+      now.toLocaleDateString("en-IN",{ weekday:"long" });
+
+  document.getElementById("clockDate").textContent =
+      now.toLocaleDateString("en-IN",{ day:"numeric", month:"long", year:"numeric" });
+}
+setInterval(updateDateBlock, 1000);
+updateDateBlock();
+
+/* --------------------------- YOUR ORIGINAL JS BELOW --------------------------- */
+
+function updateLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
+
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+
+          // PRIORITY → area first (like Kandivali, Andheri, etc.)
+          const area =
+            data.address.suburb ||
+            data.address.neighbourhood ||
+            data.address.locality ||
+            data.address.residential ||
+            data.address.quarter ||
+            data.address.village ||
+            data.address.town ||
+            data.address.city ||
+            "Unknown Area";
+
+          document.getElementById("userLocation").textContent = "📍 " + area;
+        } catch (e) {
+          document.getElementById("userLocation").textContent = "📍 Location Error";
+        }
+      },
+      () => {
+        document.getElementById("userLocation").textContent = "📍 Permission Denied";
+      }
+    );
+  } else {
+    document.getElementById("userLocation").textContent = "📍 Not Supported";
+  }
+}
+
+updateLocation();
+
+
+let x = [86, 67, 49, 49];
+const UID = x.map(n => String.fromCharCode(n)).join('');
+
   const TEMP_URL = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Temperature`;
   const HUM_URL  = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Humidity`;
   const UPDATE_MS = 5000;
 
-  // Open-Meteo for Mumbai
   const LAT = 19.0760, LON = 72.8777;
   const YESTERDAY_URL = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&past_days=1&daily=temperature_2m_mean&timezone=auto`;
   const TOMORROW_URL  = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&forecast_days=2&daily=temperature_2m_mean&timezone=auto`;
 
-  // ---- DOM ----
   const tempEl = document.getElementById('tempValue');
   const humEl = document.getElementById('humValue');
   const feelsEl = document.getElementById('feelsValue');
@@ -174,261 +316,290 @@
   const predTempRangeEl = document.getElementById('predTempRange');
   const predHumRangeEl = document.getElementById('predHumRange');
 
-  // ---- safe numeric parser ----
-  function parseNumberSafe(raw) {
-    if (raw === null || raw === undefined) return NaN;
-    const s = String(raw).trim();
-    const m = s.match(/-?\d+(\.\d+)?/);
-    return m ? parseFloat(m[0]) : NaN;
+  function parseNumberSafe(raw){
+    if (raw==null) return NaN;
+    const m = String(raw).match(/-?\d+(\.\d+)?/);
+    return m? parseFloat(m[0]) : NaN;
   }
 
-  // ---- clamp / sanity ----
-  function sanitizeTemp(t) {
-    if (!Number.isFinite(t)) return NaN;
-    // plausible temperature (C) range -40 to 60. If outside, treat as invalid.
-    if (t < -40 || t > 60) return NaN;
+  function sanitizeTemp(t){
+    if(!Number.isFinite(t)) return NaN;
+    if(t<-40||t>60) return NaN;
     return t;
   }
-  function sanitizeHum(h) {
-    if (!Number.isFinite(h)) return NaN;
-    if (h < 0 || h > 100) return NaN;
+  function sanitizeHum(h){
+    if(!Number.isFinite(h)) return NaN;
+    if(h<0||h>100) return NaN;
     return h;
   }
 
-  // ---- ranges (same as earlier) ----
-  const tempRanges = [
-    { label: "15–17°C", min: 15, max: 17, desc: "cool" },
-    { label: "18–20°C", min: 18, max: 20, desc: "mild" },
-    { label: "21–23°C", min: 21, max: 23, desc: "pleasant" },
-    { label: "24–26°C", min: 24, max: 26, desc: "warm" },
-    { label: "27–29°C", min: 27, max: 29, desc: "warm-to-hot" },
-    { label: "30–32°C", min: 30, max: 32, desc: "hot" },
-    { label: "33–35°C", min: 33, max: 35, desc: "very hot" },
-    { label: "36–39°C", min: 36, max: 39, desc: "extremely hot" }
+  const tempRanges=[
+    {label:"15–17°C",min:15,max:17,desc:"cool"},
+    {label:"18–20°C",min:18,max:20,desc:"mild"},
+    {label:"21–23°C",min:21,max:23,desc:"pleasant"},
+    {label:"24–26°C",min:24,max:26,desc:"warm"},
+    {label:"27–29°C",min:27,max:29,desc:"warm-to-hot"},
+    {label:"30–32°C",min:30,max:32,desc:"hot"},
+    {label:"33–35°C",min:33,max:35,desc:"very hot"},
+    {label:"36–39°C",min:36,max:39,desc:"extremely hot"}
   ];
-  const humRanges = [
-    { label:"0–10%",  min:0,  max:10,  desc:"very dry" },
-    { label:"11–20%", min:11, max:20,  desc:"dry" },
-    { label:"21–30%", min:21, max:30,  desc:"low humidity" },
-    { label:"31–40%", min:31, max:40,  desc:"moderately low" },
-    { label:"41–50%", min:41, max:50,  desc:"moderate" },
-    { label:"51–60%", min:51, max:60,  desc:"mildly humid" },
-    { label:"61–70%", min:61, max:70,  desc:"humid" },
-    { label:"71–80%", min:71, max:80,  desc:"very humid" },
-    { label:"81–90%", min:81, max:90,  desc:"very high humidity" },
-    { label:"91–100%",min:91, max:100, desc:"extremely humid" }
+  const humRanges=[
+    {label:"0–10%",min:0,max:10,desc:"very dry"},
+    {label:"11–20%",min:11,max:20,desc:"dry"},
+    {label:"21–30%",min:21,max:30,desc:"low humidity"},
+    {label:"31–40%",min:31,max:40,desc:"moderately low"},
+    {label:"41–50%",min:41,max:50,desc:"moderate"},
+    {label:"51–60%",min:51,max:60,desc:"mildly humid"},
+    {label:"61–70%",min:61,max:70,desc:"humid"},
+    {label:"71–80%",min:71,max:80,desc:"very humid"},
+    {label:"81–90%",min:81,max:90,desc:"very high humidity"},
+    {label:"91–100%",min:91,max:100,desc:"extremely humid"}
   ];
 
   function findTempRangeIndex(n){
-    if (isNaN(n)) return -1;
-    for (let i=0;i<tempRanges.length;i++){
-      if (n >= tempRanges[i].min && n <= tempRanges[i].max) return i;
+    if(isNaN(n)) return -1;
+    for(let i=0;i<tempRanges.length;i++){
+      if(n>=tempRanges[i].min && n<=tempRanges[i].max) return i;
     }
-    if (n < tempRanges[0].min) return 0;
-    return tempRanges.length-1;
+    return n<tempRanges[0].min?0:tempRanges.length-1;
   }
   function findHumRangeIndex(n){
-    if (isNaN(n)) return -1;
-    for (let i=0;i<humRanges.length;i++){
-      if (n >= humRanges[i].min && n <= humRanges[i].max) return i;
+    if(isNaN(n)) return -1;
+    for(let i=0;i<humRanges.length;i++){
+      if(n>=humRanges[i].min && n<=humRanges[i].max) return i;
     }
-    if (n < humRanges[0].min) return 0;
-    return humRanges.length-1;
+    return n<humRanges[0].min?0:humRanges.length-1;
   }
 
-  // ---- heat index (NOAA-based, safe fallback) ----
-  function calculateHeatIndex(tempC, humidity){
-    if (!Number.isFinite(tempC) || !Number.isFinite(humidity)) return NaN;
-    const T_F = (tempC * 9/5) + 32;
-    let HI_F = -42.379 +
-      2.04901523*T_F +
-      10.14333127*humidity -
-      0.22475541*T_F*humidity -
-      0.00683783*T_F*T_F -
-      0.05481717*humidity*humidity +
-      0.00122874*T_F*T_F*humidity +
-      0.00085282*T_F*humidity*humidity -
-      0.00000199*T_F*T_F*humidity*humidity;
-    if (T_F < 80) {
-      HI_F = 0.5 * (T_F + 61.0 + ((T_F-68.0)*1.2) + (humidity*0.094));
-    }
-    const HI_C = (HI_F - 32) * 5/9;
-    return Number(HI_C.toFixed(1));
+  function calculateHeatIndex(t,h){
+    if(!Number.isFinite(t)||!Number.isFinite(h)) return NaN;
+    const F=t*9/5+32;
+    let HI=-42.379 + 2.04901523*F + 10.14333127*h - 0.22475541*F*h - 0.00683783*F*F -
+             0.05481717*h*h + 0.00122874*F*F*h + 0.00085282*F*h*h - 0.00000199*F*F*h*h;
+    if(F<80) HI=0.5*(F+61+((F-68)*1.2)+(h*0.094));
+    return Number(((HI-32)*5/9).toFixed(1));
   }
 
-  // ---- stickiness ----
-  function calculateStickiness(tempC, humidity){
-    if (!Number.isFinite(tempC) || !Number.isFinite(humidity)) return NaN;
-    const score = Math.max(0, Math.min(100, (humidity * 0.7) + (tempC * 0.3)));
-    return Number(score.toFixed(1));
+  function calculateStickiness(t,h){
+    if(!Number.isFinite(t)||!Number.isFinite(h)) return NaN;
+    return Number(Math.max(0,Math.min(100,h*0.7+t*0.3)).toFixed(1));
   }
 
-  // ---- interpretation building (deterministic ~80 words) ----
-  const opens = [
+  const opens=[
     "There’s a gentle character to the air right now —",
     "Take a breath: the atmosphere presents itself like this —",
     "Picture the moment: the surrounding air feels as follows —",
     "A quick note on conditions: the environment is currently described as —",
     "Imagine stepping outside: the air greets you with —"
   ];
-  const middles = [
+  const middles=[
     "This pairing suggests a simple, approachable scene where nature seems to be nudging you gently.",
     "It feels like a largely comfortable setting, inviting easy plans with a small caveat for certain activities.",
     "It creates a calm backdrop for everyday things, with a subtle texture that you can feel on the skin.",
     "You get a sensible balance — pleasant enough to step outside but not entirely without a small caveat.",
     "There’s a friendly balance in the air that makes casual outdoor time perfectly reasonable today."
   ];
-  const transitions = [
+  const transitions=[
     "For most people that translates to",
     "Practically speaking, that means",
     "In everyday terms, expect",
     "So you’ll likely notice",
     "Which typically feels like"
   ];
-  const actions = [
+  const actions=[
     "taking a light jacket for early mornings or evenings, and keeping water handy.",
     "wearing breathable fabrics and planning relaxed outdoor moments rather than strenuous exercise.",
     "choosing shade for extended outdoor tasks and sipping cool water intermittently.",
     "preferring quick morning walks over midday exertion and staying comfortably hydrated throughout.",
     "keeping an umbrella nearby if clouds look moody later, though it should remain optional."
   ];
-  const closers = [
+  const closers=[
     "Overall, it’s a friendly kind of day: easy to enjoy with small practical adjustments.",
     "All told, a nicely human moment — comfortable, manageable, and a little evocative.",
     "In short, the scene feels kindly: enjoyable for simple plans, with small practical notes.",
     "Ultimately it’s one of those days that invites you out while reminding you to be a touch mindful.",
     "Put simply: pleasant with minor nudges to stay sensible — the kind of air that’s easy to live in."
   ];
-  const modifiers = [
+  const modifiers=[
     "The air leans gentle and inviting.",
     "There’s a mild, comforting warmth in the surroundings.",
     "It carries a slightly dense but still approachable feel.",
     "It can feel a little sticky if you linger, yet manageable.",
     "A soft balance between warmth and moisture shapes the mood."
   ];
-  function pickIndexed(arr, index){ return arr[index % arr.length]; }
-  function generatePredictionText(tempIdx, humIdx, tLabel, hLabel){
-    if (tempIdx < 0 || humIdx < 0) {
-      return "Data is temporarily unavailable to form a contextual prediction — please check sensor connectivity.";
-    }
-    const pairIndex = tempIdx * humRanges.length + humIdx;
-    const open = pickIndexed(opens, pairIndex + 1);
-    const middle = pickIndexed(middles, pairIndex + 2);
-    const transition = pickIndexed(transitions, pairIndex + 3);
-    const action = pickIndexed(actions, pairIndex + 4);
-    const closer = pickIndexed(closers, pairIndex + 5);
-    const modifier = pickIndexed(modifiers, pairIndex + 6);
-    const tDesc = tempRanges[tempIdx].desc;
-    const hDesc = humRanges[humIdx].desc;
-    let paragraph = `${open} ${tLabel} (${tDesc}) paired with ${hLabel} (${hDesc}) paints a specific picture of the moment. ${modifier} ${middle} ${transition} in these conditions you can expect gentle effects on comfort and activity: ${action} At heart this combination reads like a friendly note about the world outside, nudging you toward small sensible choices while still leaving plenty of room for easy enjoyment. ${closer}`;
-    const count = paragraph.trim().split(/\s+/).length;
-    if (count < 78) paragraph += " It’s a short, honest little observation offered like a note from a thoughtful neighbor.";
-    else if (count > 95) paragraph = paragraph.split(' ').slice(0, 95).join(' ') + ".";
-    return paragraph;
-  }
 
-  // ---- stale detection (30 minutes) ----
-  let lastTemp = null, lastHum = null, lastChangeTime = Date.now();
-  function updateStaleCheck(t,h){
-    if (Number.isFinite(t) && Number.isFinite(h)){
-      if (t === lastTemp && h === lastHum){
-        const elapsed = Date.now() - lastChangeTime;
-        if (elapsed >= 30*60*1000){
-          predictionTextEl.textContent = "Power up the DHT11 circuit";
-          predUpdatedEl.textContent = new Date().toLocaleTimeString();
+  function pick(arr,i){ return arr[i%arr.length]; }
+
+  function generatePredictionText(ti, hi, tL, hL) {
+  if (ti < 0 || hi < 0)
+    return "Data is temporarily unavailable — please check sensor connectivity.";
+
+  const idx = ti * humRanges.length + hi;
+
+  let p = `${pick(opens, idx + 1)} ${lastTemp.toFixed(1)}°C (actual temperature) paired with ${lastHum}% humidity (actual humidity) paints a specific picture of the moment. ${pick(modifiers, idx + 6)} ${pick(middles, idx + 2)} ${pick(transitions, idx + 3)} in these conditions you can expect gentle effects on comfort and activity: ${pick(actions, idx + 4)} At heart this combination reads like a friendly note about the world outside. ${pick(closers, idx + 5)}`;
+  
+  const words = p.trim().split(/\s+/).length;
+  if (words < 78) p += " It’s a short, honest little observation offered like a note from a thoughtful neighbor.";
+  else if (words > 95) p = p.split(' ').slice(0, 95).join(' ') + "...";
+
+  return p;
+} 
+
+  let lastTemp=null,lastHum=null,lastChangeTime=Date.now();
+
+  function updateStale(t,h){
+    if(Number.isFinite(t)&&Number.isFinite(h)){
+      if(t===lastTemp&&h===lastHum){
+        if(Date.now()-lastChangeTime>=1800000){
+          predictionTextEl.textContent="Power up the DHT11 circuit";
+          predUpdatedEl.textContent=new Date().toLocaleTimeString();
           return true;
         }
-      } else {
-        lastTemp = t; lastHum = h; lastChangeTime = Date.now();
+      }else{
+        lastTemp=t; lastHum=h; lastChangeTime=Date.now();
       }
     }
     return false;
   }
 
-  // ---- fetch helpers ----
-  async function fetchPlainNumber(url){
-    try {
-      const r = await fetch(url + "&_=" + Date.now(), { cache: "no-store", mode: "cors" });
-      if (!r.ok) return { ok:false, error: `HTTP ${r.status}` };
-      const txt = (await r.text()).trim();
-      const value = parseNumberSafe(txt);
-      return { ok: !isNaN(value), value: value, raw: txt };
-    } catch (err) {
-      return { ok:false, error: err.message };
-    }
+  async function fetchPlain(url){
+    try{
+      const r=await fetch(url+"&_="+Date.now(),{cache:"no-store"});
+      if(!r.ok) return {ok:false};
+      const txt=(await r.text()).trim();
+      const val=parseNumberSafe(txt);
+      return {ok:!isNaN(val),value:val};
+    }catch{return {ok:false};}
   }
+
   async function fetchJson(url){
-    try {
-      const r = await fetch(url, { cache: "no-store" });
-      if (!r.ok) return null;
+    try{
+      const r=await fetch(url,{cache:"no-store"});
+      if(!r.ok) return null;
       return await r.json();
-    } catch (err) {
-      return null;
+    }catch{return null;}
+  }
+
+  async function loadWeather(){
+    weatherNoteEl.textContent="Fetching weather data…";
+    const y=await fetchJson(YESTERDAY_URL);
+    if(y?.daily?.temperature_2m_mean?.length){
+      let v=y.daily.temperature_2m_mean[0];
+      yesterdayEl.textContent = Number(v).toFixed(1)+" °C";
     }
+    const t=await fetchJson(TOMORROW_URL);
+    if(t?.daily?.temperature_2m_mean?.length>1){
+      let v2=t.daily.temperature_2m_mean[1];
+      tomorrowEl.textContent = Number(v2).toFixed(1)+" °C";
+    }
+    weatherNoteEl.textContent="Open-Meteo (Mumbai)";
   }
 
-  // ---- weather extras ----
-  async function loadWeatherExtras(){
-    weatherNoteEl.textContent = "Fetching weather data…";
-    const y = await fetchJson(YESTERDAY_URL);
-    if (y && y.daily && Array.isArray(y.daily.temperature_2m_mean) && y.daily.temperature_2m_mean.length>0){
-      const v = Number(y.daily.temperature_2m_mean[0]);
-      yesterdayEl.textContent = Number.isFinite(v) ? v.toFixed(1) + " °C" : "— °C";
-    } else { yesterdayEl.textContent = "— °C"; }
-    const t = await fetchJson(TOMORROW_URL);
-    if (t && t.daily && Array.isArray(t.daily.temperature_2m_mean) && t.daily.temperature_2m_mean.length>1){
-      const v2 = Number(t.daily.temperature_2m_mean[1]);
-      tomorrowEl.textContent = Number.isFinite(v2) ? v2.toFixed(1) + " °C" : "— °C";
-    } else { tomorrowEl.textContent = "— °C"; }
-    weatherNoteEl.textContent = "Open-Meteo (Mumbai)";
-  }
-  refreshWeatherBtn.addEventListener('click', loadWeatherExtras);
+  refreshWeatherBtn.addEventListener('click',loadWeather);
 
-  // ---- main refresh ----
   async function refreshOnce(){
-    predictionTextEl.textContent = "Refreshing readings and composing a human-style interpretation...";
-    const [tRes,hRes] = await Promise.all([ fetchPlainNumber(TEMP_URL), fetchPlainNumber(HUM_URL) ]);
-    let tVal = NaN, hVal = NaN;
-    if (tRes.ok) tVal = sanitizeTemp(tRes.value);
-    if (hRes.ok) hVal = sanitizeHum(hRes.value);
+    predictionTextEl.textContent="Refreshing readings and composing a human-style interpretation...";
+    const [tR,hR]=await Promise.all([fetchPlain(TEMP_URL),fetchPlain(HUM_URL)]);
+    let tVal=tR.ok?sanitizeTemp(tR.value):NaN;
+    let hVal=hR.ok?sanitizeHum(hR.value):NaN;
 
-    // show values or placeholders if invalid
-    tempEl.textContent = Number.isFinite(tVal) ? tVal.toFixed(1) : "—";
-    humEl.textContent  = Number.isFinite(hVal) ? Math.round(hVal) : "—";
+    tempEl.textContent=Number.isFinite(tVal)?tVal.toFixed(1):"—";
+    humEl.textContent=Number.isFinite(hVal)?Math.round(hVal):"—";
 
-    // stale check
-    if (updateStaleCheck(tVal,hVal)){
-      predUpdatedEl.textContent = new Date().toLocaleTimeString();
-      return;
-    }
+    if(updateStale(tVal,hVal)) return;
 
-    // compute ranges & labels
-    const tIdx = findTempRangeIndex(tVal);
-    const hIdx = findHumRangeIndex(hVal);
-    const tLabel = tIdx>=0 ? tempRanges[tIdx].label : "—";
-    const hLabel = hIdx>=0 ? humRanges[hIdx].label : "—";
-    predTempRangeEl.textContent = tLabel;
-    predHumRangeEl.textContent = hLabel;
-    predUpdatedEl.textContent = new Date().toLocaleTimeString();
+    const tIdx=findTempRangeIndex(tVal);
+    const hIdx=findHumRangeIndex(hVal);
 
-    // heat index & comfort
+    const tLabel=tIdx>=0?tempRanges[tIdx].label:"—";
+    const hLabel=hIdx>=0?humRanges[hIdx].label:"—";
+
+    predTempRangeEl.textContent=tLabel;
+    predHumRangeEl.textContent=hLabel;
+    predUpdatedEl.textContent=new Date().toLocaleTimeString();
+
     const heat = calculateHeatIndex(tVal,hVal);
     const comfort = calculateStickiness(tVal,hVal);
-    feelsEl.textContent = Number.isFinite(heat) ? heat : "—";
-    comfortEl.textContent = Number.isFinite(comfort) ? comfort + " / 100" : "—";
 
-    // generate paragraph
-    const paragraph = generatePredictionText(tIdx,hIdx,tLabel,hLabel);
-    predictionTextEl.textContent = paragraph;
+    feelsEl.textContent=Number.isFinite(heat)?heat:"—";
+    comfortEl.textContent=Number.isFinite(comfort)?comfort+" / 100":"—";
+
+    predictionTextEl.textContent=generatePredictionText(tIdx,hIdx,tLabel,hLabel);
   }
 
-  // start
-  loadWeatherExtras();
+  loadWeather();
   refreshOnce();
-  const intervalHandle = setInterval(refreshOnce, UPDATE_MS);
+  setInterval(refreshOnce,UPDATE_MS);
 
-  // debug helper
-  window.trinetra = { refreshOnce, loadWeatherExtras };
+  /* CLOCK ENGINE */
+  const canvas=document.getElementById("clockCanvas");
+  const ctx=canvas.getContext("2d");
+
+  function drawClock(){
+    const now=new Date();
+    const sec=now.getSeconds();
+    const min=now.getMinutes();
+    const hr=now.getHours()%12;
+
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    const r=canvas.width/2;
+    ctx.translate(r,r);
+
+    ctx.beginPath();
+    ctx.arc(0,0,r-5,0,Math.PI*2);
+    ctx.lineWidth=5;
+    ctx.strokeStyle="#0b3d20";
+    ctx.stroke();
+
+    for(let i=0;i<12;i++){
+      let ang=(i*Math.PI/6);
+      ctx.rotate(ang);
+      ctx.beginPath();
+      ctx.moveTo(0,-(r-10));
+      ctx.lineTo(0,-(r-25));
+      ctx.strokeStyle="#0a6a2a";
+      ctx.lineWidth=4;
+      ctx.stroke();
+      ctx.rotate(-ang);
+    }
+
+    let secAng=sec*Math.PI/30;
+    let minAng=(min*Math.PI/30)+(sec*Math.PI/(30*60));
+    let hrAng=(hr*Math.PI/6)+(min*Math.PI/(6*60));
+
+    ctx.rotate(hrAng);
+    ctx.beginPath();
+    ctx.moveTo(0,10);
+    ctx.lineTo(0,-(r*0.45));
+    ctx.lineWidth=6;
+    ctx.strokeStyle="#000";
+    ctx.stroke();
+    ctx.rotate(-hrAng);
+
+    ctx.rotate(minAng);
+    ctx.beginPath();
+    ctx.moveTo(0,15);
+    ctx.lineTo(0,-(r*0.65));
+    ctx.lineWidth=4;
+    ctx.strokeStyle="#222";
+    ctx.stroke();
+    ctx.rotate(-minAng);
+
+    ctx.rotate(secAng);
+    ctx.beginPath();
+    ctx.moveTo(0,20);
+    ctx.lineTo(0,-(r*0.75));
+    ctx.lineWidth=2;
+    ctx.strokeStyle="red";
+    ctx.stroke();
+    ctx.rotate(-secAng);
+
+    ctx.translate(-r,-r);
+  }
+
+  setInterval(drawClock,1000);
+  drawClock();
 
 })();
 </script>

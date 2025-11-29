@@ -3,7 +3,7 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #include <WiFiClientSecureBearSSL.h>
-#include "password.h"  // contains wifiuser, pass, uid
+#include "Password.h"  // contains wifiuser, pass, uid
 
 NinjaIoT iot;
 
@@ -11,8 +11,8 @@ NinjaIoT iot;
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
 
-// Replace with your deployed Google Apps Script Web App URL
-const char* GScriptUrl = "https://script.google.com/macros/s/AKfycbwlQNWGXGl6JUOPQXJ0TathtWoYyIjJNZatUCMk4V6iQUxe4dnh-zN0Q2SF92XO4OjX4w/exec";
+// Replace it with your deployed Google Apps Script Web App URL
+const char* GScriptUrl = "https://script.google.com/macros/s/AKfycbwlQNWGXGl6JUOPQXJ0TathtWoYyIjJNZatUCMk4V6iQUxe4dnh-zN0Q2SF92XO4OjX4w/exec"; 
 
 void setup() {
   Serial.begin(115200);
