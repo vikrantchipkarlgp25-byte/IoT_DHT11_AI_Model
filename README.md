@@ -95,31 +95,7 @@ Based on these predictions, the system provides **basic recommendations** to hel
 
 ---
 
-## Project Structure
-📂 IoT_DHT11_AI_Model
-┣ 📁 DHT11_Hardware_Code
-┃ ┣ 📄 DHT11_Hardware_Code.ino
-┃ ┗ 📄 Password.h
-┣ 📁 Videos for Explanation
-┃ ┣ 📄 Me_Explaining_the_Project.mp4
-┃ ┗ 📄 Trinetra's Final Video.mp4
-┣ 📄 .gitignore
-┣ 📄 README.md
-┣ 📄 index.html
-┗ 📄 your-logo.png
-
-## Evaluation Criteria
-
-| Component | Marks |
-|-------------------------------|-------|
-| Functionality of Dashboard App | 20    |
-| Web Dashboard Design and Implementation | 40    |
-| Hosting and Accessibility      | 20    |
-| Multi-Microcontroller Integration | 20    |
-
----
-
-## Submission Details
+## Important Links
 
 - **GitHub Repository:**  
   [https://github.com/vikrantchipkarlgp25-byte/IoT_DHT11_AI_Model.git](https://github.com/vikrantchipkarlgp25-byte/IoT_DHT11_AI_Model.git)
