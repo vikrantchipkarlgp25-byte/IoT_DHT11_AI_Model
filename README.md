@@ -74,7 +74,7 @@ This project demonstrates how basic IoT hardware combined with simple AI logic c
 
 ---
 
-## AI / Prediction Logic
+## Prediction Logic
 The AI model uses historical temperature and humidity data to classify environmental conditions into simple categories:
 
 - **Comfortable**
