@@ -1,623 +1,662 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Trinetra — Final Dashboard</title>
-<link rel="icon" type="image/png" href="your-logo.png" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trinetra — Final Dashboard</title>
+  <link rel="icon" type="image/png" href="your-logo.png" />
+  <style>
+    :root {
+      --bg-top: #063214;
+      --bg-mid: #0b4e1b;
+      --bg-bottom: #148326;
+      --card: #e8fff0;
+      --muted: rgba(2, 20, 8, 0.65);
+      --accent: #0a6a2a;
+      --glass-shadow: 10px 14px 38px rgba(0, 0, 0, 0.16);
+      --soft-shadow: 0 8px 26px rgba(2, 10, 3, 0.12);
+      --radius: 16px;
+      --maxw: 1200px;
+      --update-interval-ms: 5000;
+      --transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
 
-<style>
-  :root{
-    --bg-top:#063214; --bg-mid:#0b4e1b; --bg-bottom:#148326;
-    --card:#e8fff0; --muted:rgba(2,20,8,0.65); --accent:#0a6a2a;
-    --glass-shadow: 10px 14px 38px rgba(0,0,0,0.16);
-    --soft-shadow: 0 8px 26px rgba(2,10,3,0.12);
-    --radius:16px; --maxw:1200px;
-    --update-interval-ms:5000;
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;}
-  body{
-    background: linear-gradient(180deg,var(--bg-top) 0%,var(--bg-mid) 45%,var(--bg-bottom) 100%);
-    color:#051604; display:flex;align-items:flex-start;justify-content:center;padding:28px;
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  .wrap{ width:100%; max-width:var(--maxw); }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
 
-  /* Hover effect for ALL cards */
-  .card, .mini {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .card:hover, .mini:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 14px 32px rgba(0,0,0,0.22);
-  }
+    body {
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 45%, var(--bg-bottom) 100%);
+      color: #051604;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 28px;
+    }
 
-  /* Topbar */
-  .topbar{ display:flex; align-items:center; gap:14px; margin-bottom:6px; }
-  .logo{ width:56px; height:56px; border-radius:12px; overflow:hidden; background:rgba(255,255,255,0.04); box-shadow:0 6px 18px rgba(0,0,0,0.25); display:flex; align-items:center; justify-content:center;}
-  .logo img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .brand { color:#e9ffea; font-weight:800; font-size:20px; margin-left:6px; }
+    .wrap {
+      width: 100%;
+      max-width: var(--maxw);
+    }
 
-  /* Hero */
-  .hero{ text-align:center; margin:8px 0 20px; }
-  .title{ color:#f1fff3; font-size:36px; margin:0; font-weight:900; text-shadow:0 6px 18px rgba(0,0,0,0.28); }
-  .subtitle{ color:rgba(235,255,235,0.92); margin-top:6px; font-weight:600; font-size:14px; }
+    /* Hover effects for cards */
+    .card, .mini {
+      transition: var(--transition);
+    }
 
-  /* Grid of metric cards */
-  .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px; margin-top:18px; }
+    .card:hover, .mini:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.22);
+    }
 
-  /* TOP 4 cards — bigger */
-  .card{
-    background:var(--card);
-    border-radius:var(--radius);
-    padding:24px; /* increased */
-    box-shadow:var(--glass-shadow);
-    border:1px solid rgba(2,20,8,0.04);
-    min-height:140px; /* increased */
-    display:flex; flex-direction:column; justify-content:space-between;
-  }
-  .small-title{ font-size:13px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
-  .big{ font-size:38px; font-weight:900; color:#081a0f; display:flex; align-items:baseline; gap:8px; }
+    /* Topbar */
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
 
-  .unit{ font-size:15px; color:var(--muted); font-weight:800; }
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-  /* Extras */
-  .extras { display:flex; gap:18px; flex-wrap:wrap; margin-top:25px; align-items:flex-start; }
+    .logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
-  /* Bottom mini-cards — slightly smaller */
-  .mini{
-    background:#fff;
-    border-radius:14px;
-    padding:16px 18px; /* smaller */
-    box-shadow:var(--soft-shadow);
-    min-width:240px;
-    max-width:330px;
-    display:flex; flex-direction:column; align-items:flex-start; gap:8px;
-  }
-  .mini h4{ margin:0; font-size:20px; font-weight:900; color:#0b3d20; }
-  .mini .val{ margin-top:4px; font-weight:900; font-size:26px; color:#083b1a; }
+    .brand {
+      color: #e9ffea;
+      font-weight: 800;
+      font-size: 20px;
+      margin-left: 6px;
+    }
 
-  .datasrc { margin-top:6px; display:flex; flex-direction:column; gap:8px; align-items:center; justify-content:center; min-width:220px; }
-  .datasrc .tag{ font-weight:800; color:#0b3d20; }
+    /* Hero */
+    .hero {
+      text-align: center;
+      margin: 8px 0 20px;
+    }
 
-  /* CLOCK */
-  .clockBox{
-    background:#fff;
-    box-shadow:var(--soft-shadow);
-    border-radius:50%;
-    width:180px;
-    height:180px;
-    display:flex; align-items:center; justify-content:center;
-    margin-top:8px;
-  }
+    .title {
+      color: #f1fff3;
+      font-size: 36px;
+      margin: 0;
+      font-weight: 900;
+      text-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+    }
 
-  #clockCanvas{
-    width:160px; height:160px;
-  }
+    .subtitle {
+      color: rgba(235, 255, 235, 0.92);
+      margin-top: 6px;
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-  /* NEW: Date / Day / Location section beside clock */
-  .clockInfo {
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    padding-left:10px;
-    color:white;
-    min-width:200px;
-  }
-  .clockInfo .day {
-    font-size:22px;
-    font-weight:800;
-  }
-  .clockInfo .date {
-    font-size:16px;
-    margin-top:4px;
-    opacity:0.9;
-  }
-  .clockInfo .loc {
-    margin-top:10px;
-    background:rgba(255,255,255,0.12);
-    padding:6px 12px;
-    border-radius:10px;
-    font-weight:700;
-    font-size:14px;
-    width:fit-content;
-  }
+    /* Grid of metric cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-top: 18px;
+    }
 
-  /* Interpretation */
-  .prediction{ margin-top:26px; background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(245,255,248,0.99)); border-radius:20px; padding:22px; box-shadow:var(--soft-shadow); border:1px solid rgba(2,20,8,0.04); }
-  .prediction h3{ margin:0; font-size:18px; font-weight:800; color:#061b0f; }
-  .prediction p{ margin:10px 0 0; color:rgba(4,20,8,0.86); font-weight:600; line-height:1.45; }
-  .meta{ margin-top:12px; display:flex; gap:12px; flex-wrap:wrap; color:rgba(6,22,8,0.6); font-weight:700; font-size:13px; }
-  .pill{ padding:8px 12px; border-radius:999px; background:rgba(5,35,15,0.05); border:1px solid rgba(6,28,10,0.04); }
+    /* Top 4 cards — bigger */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--glass-shadow);
+      border: 1px solid rgba(2, 20, 8, 0.04);
+      min-height: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
 
-</style>
+    .small-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .big {
+      font-size: 38px;
+      font-weight: 900;
+      color: #081a0f;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .unit {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    /* Extras */
+    .extras {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+      align-items: flex-start;
+    }
+
+    /* Bottom mini-cards — slightly smaller */
+    .mini {
+      background: #fff;
+      border-radius: 14px;
+      padding: 16px 18px;
+      box-shadow: var(--soft-shadow);
+      min-width: 240px;
+      max-width: 330px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .mini h4 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 900;
+      color: #0b3d20;
+    }
+
+    .mini .val {
+      margin-top: 4px;
+      font-weight: 900;
+      font-size: 26px;
+      color: #083b1a;
+    }
+
+    .datasrc {
+      margin-top: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+      min-width: 220px;
+    }
+
+    .datasrc .tag {
+      font-weight: 800;
+      color: #0b3d20;
+    }
+
+    /* CLOCK */
+    .clockBox {
+      background: #fff;
+      box-shadow: var(--soft-shadow);
+      border-radius: 50%;
+      width: 180px;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 8px;
+    }
+
+    #clockCanvas {
+      width: 160px;
+      height: 160px;
+    }
+
+    /* Date / Day / Location section beside clock */
+    .clockInfo {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 10px;
+      color: white;
+      min-width: 200px;
+    }
+
+    .clockInfo .day {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .clockInfo .date {
+      font-size: 16px;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .clockInfo .loc {
+      margin-top: 10px;
+      background: rgba(255, 255, 255, 0.12);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      width: fit-content;
+    }
+
+    /* Interpretation */
+    .prediction {
+      margin-top: 26px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 255, 248, 0.99));
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: var(--soft-shadow);
+      border: 1px solid rgba(2, 20, 8, 0.04);
+    }
+
+    .prediction h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      color: #061b0f;
+    }
+
+    .prediction p {
+      margin: 10px 0 0;
+      color: rgba(4, 20, 8, 0.86);
+      font-weight: 600;
+      line-height: 1.45;
+    }
+
+    .meta {
+      margin-top: 12px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: rgba(6, 22, 8, 0.6);
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(5, 35, 15, 0.05);
+      border: 1px solid rgba(6, 28, 10, 0.04);
+    }
+
+    /* Footer */
+    .footer {
+      width: 100%;
+      text-align: center;
+      padding: 10px 0;
+      font-size: 13px;
+      color: #c9f3ff;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      border-top: 1px solid rgba(0, 255, 255, 0.2);
+      text-shadow: 0 0 8px #00eaff;
+      margin-top: 30px;
+      border-radius: var(--radius);
+    }
+
+    /* Loading animation */
+    .loading {
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .extras {
+        flex-direction: column;
+        align-items: center;
+      }
+      .clockInfo {
+        min-width: auto;
+        text-align: center;
+      }
+      .title {
+        font-size: 28px;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="logo">
+        <img src="your-logo.png" alt="Trinetra logo">
+      </div>
+      <div class="brand">Trinetra</div>
+    </div>
 
-  <div class="topbar">
-    <div class="logo"><img src="your-logo.png" alt="Trinetra logo"></div>
-    <div class="brand">Trinetra</div>
+    <div class="hero">
+      <h1 class="title">Environmental Dashboard</h1>
+      <div class="subtitle">Real-time local readings + cleaner, safer presentation</div>
+    </div>
+
+    <!-- TOP CARDS -->
+    <section class="grid" aria-label="Key metrics">
+      <div class="card" id="card-temp">
+        <div>
+          <div class="small-title">Temperature</div>
+          <div class="big">
+            <span id="tempValue" class="loading">—</span>
+            <span class="unit">°C</span>
+          </div>
+        </div>
+        <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Live Reading</div>
+      </div>
+
+      <div class="card" id="card-hum">
+        <div>
+          <div class="small-title">Humidity</div>
+          <div class="big">
+            <span id="humValue" class="loading">—</span>
+            <span class="unit">%</span>
+          </div>
+        </div>
+        <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Relative Humidity</div>
+      </div>
+
+      <div class="card" id="card-feels">
+        <div>
+          <div class="small-title">Heat Index</div>
+          <div class="big">
+            <span id="feelsValue" class="loading">—</span>
+            <span class="unit">°C</span>
+          </div>
+        </div>
+        <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Feels-like from T + H</div>
+      </div>
+
+      <div class="card" id="card-comfort">
+        <div>
+          <div class="small-title">Comfort Level</div>
+          <div class="big">
+            <span id="comfortValue" class="loading">—</span>
+          </div>
+        </div>
+        <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Stickiness / comfort score</div>
+      </div>
+    </section>
+
+    <!-- Extras Section -->
+    <div class="extras">
+      <div class="mini">
+        <h4>Yesterday — Avg Temp</h4>
+        <div class="val" id="yesterdayTemp">— °C</div>
+        <div style="font-size:12px;color:rgba(6,22,8,0.6);">Local mean temperature (Mumbai)</div>
+      </div>
+
+      <div class="mini">
+        <h4>Tomorrow — Expected</h4>
+        <div class="val" id="tomorrowTemp">— °C</div>
+        <div style="font-size:12px;color:rgba(6,22,8,0.6);">Model-based daytime expectation</div>
+      </div>
+
+      <div class="mini datasrc">
+        <div class="tag">Data Source</div>
+        <div style="font-weight:800;color:#0b3d20">Open-Meteo</div>
+        <button id="refreshWeatherBtn" style="margin-top:10px;background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:800;">Refresh Weather</button>
+        <div class="note" id="weatherNote" style="font-size:12px;color:rgba(6,22,8,0.6);margin-top:6px">Mumbai (auto)</div>
+      </div>
+
+      <!-- Clock + Info block -->
+      <div style="display:flex;gap:16px;align-items:center;margin-left:auto;">
+        <div class="clockBox">
+          <canvas id="clockCanvas" width="160" height="160" aria-label="Analog clock"></canvas>
+        </div>
+
+        <div class="clockInfo">
+          <div class="day" id="clockDay">—</div>
+          <div class="date" id="clockDate">—</div>
+          <div class="loc" id="userLocation">📍 Detecting...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prediction -->
+    <section class="prediction" aria-labelledby="pred-title">
+      <h3 id="pred-title">Trinetra's Interpretation · creative & human</h3>
+      <p id="predictionText">Gathering range-based context…</p>
+      <div class="meta">
+        <div class="pill">Updated: <strong id="predUpdated">—</strong></div>
+        <div class="pill">Temp Range: <strong id="predTempRange">—</strong></div>
+        <div class="pill">Hum Range: <strong id="predHumRange">—</strong></div>
+      </div>
+    </section>
+
+    <div class="footer">
+      🚧 If you have any feedback for this site. Mail it to the email address - <b>vikrantchipkar7@gmail.com</b> or else contact me - <b>93244 59446</b> 🚧
+    </div>
   </div>
 
-  <div class="hero">
-    <h1 class="title">Environmental Dashboard</h1>
-    <div class="subtitle">Real-time local readings + cleaner, safer presentation</div>
-  </div>
+  <script>
+    (() => {
+      // Constants
+      const UID = [86, 67, 49, 49].map(n => String.fromCharCode(n)).join('');
+      const TEMP_URL = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Temperature`;
+      const HUM_URL = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Humidity`;
+      const UPDATE_MS = 5000;
+      const LAT = 19.0760, LON = 72.8777;
+      const YESTERDAY_URL = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&past_days=1&daily=temperature_2m_mean&timezone=auto`;
+      const TOMORROW_URL = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&forecast_days=2&daily=temperature_2m_mean&timezone=auto`;
 
-  <!-- TOP CARDS -->
-  <section class="grid" aria-label="Key metrics">
+      // DOM Elements
+      const tempEl = document.getElementById('tempValue');
+      const humEl = document.getElementById('humValue');
+      const feelsEl = document.getElementById('feelsValue');
+      const comfortEl = document.getElementById('comfortValue');
+      const yesterdayEl = document.getElementById('yesterdayTemp');
+      const tomorrowEl = document.getElementById('tomorrowTemp');
+      const weatherNoteEl = document.getElementById('weatherNote');
+      const refreshWeatherBtn = document.getElementById('refreshWeatherBtn');
+      const predictionTextEl = document.getElementById('predictionText');
+      const predUpdatedEl = document.getElementById('predUpdated');
+      const predTempRangeEl = document.getElementById('predTempRange');
+      const predHumRangeEl = document.getElementById('predHumRange');
 
-    <div class="card" id="card-temp">
-      <div>
-        <div class="small-title">Temperature</div>
-        <div class="big"><span id="tempValue">—</span><span class="unit">°C</span></div>
-      </div>
-      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Live Reading</div>
-    </div>
+      // Data ranges
+      const tempRanges = [
+        { label: "15–17°C", min: 15, max: 17, desc: "cool" },
+        { label: "18–20°C", min: 18, max: 20, desc: "mild" },
+        { label: "21–23°C", min: 21, max: 23, desc: "pleasant" },
+        { label: "24–26°C", min: 24, max: 26, desc: "warm" },
+        { label: "27–29°C", min: 27, max: 29, desc: "warm-to-hot" },
+        { label: "30–32°C", min: 30, max: 32, desc: "hot" },
+        { label: "33–35°C", min: 33, max: 35, desc: "very hot" },
+        { label: "36–39°C", min: 36, max: 39, desc: "extremely hot" }
+      ];
 
-    <div class="card" id="card-hum">
-      <div>
-        <div class="small-title">Humidity</div>
-        <div class="big"><span id="humValue">—</span><span class="unit">%</span></div>
-      </div>
-      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Relative Humidity</div>
-    </div>
+      const humRanges = [
+        { label: "0–10  %", min: 0, max: 10, desc: "extremely dry" },
+        { label: "11–20%", min: 11, max: 20, desc: "very dry" },
+        { label: "21–30%", min: 21, max: 30, desc: "dry" },
+        { label: "31–40%", min: 31, max: 40, desc: "comfortable" },
+        { label: "41–50%", min: 41, max: 50, desc: "slightly humid" },
+        { label: "51–60%", min: 51, max: 60, desc: "humid" },
+        { label: "61–70%", min: 61, max: 70, desc: "very humid" },
+        { label: "71–100%", min: 71, max: 100, desc: "extremely humid" }
+      ];
+      // Fetch functions
+      async function fetchTemp() {
+        const res = await fetch(TEMP_URL);
+        const text = await res.text();
+        return parseFloat(text);
+      } 
+      async function fetchHum() {
+        const res = await fetch(HUM_URL);
+        const text = await res.text();
+        return parseFloat(text);
+      }
+      async function fetchYesterdayTemp() {
+        const res = await fetch(YESTERDAY_URL);
+        const data = await res.json();
+        return data.daily.temperature_2m_mean[0];
+      }
+      async function fetchTomorrowTemp() {
+        const res = await fetch(TOMORROW_URL);
+        const data = await res.json();
+        return data.daily.temperature_2m_mean[1];
+      }
+      // Utility functions
+      function calculateHeatIndex(T, H) {
+        return -8.784695 + 1.61139411 * T + 2.338549 * H - 0.14611605 * T * H - 0.012308094 * T * T - 0.016424828 * H * H + 0.002211732 * T * T * H + 0.00072546 * T * H * H - 0.000003582 * T * T * H * H;
+      }
+      function calculateComfortLevel(T, H) {
+        return (1.8 * T) - (0.55 * (1 - (H / 100)) * (1.8 * T - 26)) + 32;
+      }
+      function getRangeDesc(value, ranges) {
+        for (const range of ranges) {
+          if (value >= range.min && value <= range.max) {
+            return range;
+          }
+        }
+        return null;
+      }
+      function updatePrediction(temp, hum) {
+        const tempRange = getRangeDesc(temp, tempRanges);
+        const humRange = getRangeDesc(hum, humRanges);
 
-    <div class="card" id="card-feels">
-      <div>
-        <div class="small-title">Heat Index</div>
-        <div class="big"><span id="feelsValue">—</span><span class="unit">°C</span></div>
-      </div>
-      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Feels-like from T + H</div>
-    </div>
+        predTempRangeEl.textContent = tempRange ? tempRange.label : "—";
+        predHumRangeEl.textContent = humRange ? humRange.label : "—";
 
-    <div class="card" id="card-comfort">
-      <div>
-        <div class="small-title">Comfort Level</div>
-        <div class="big"><span id="comfortValue">—</span></div>
-      </div>
-      <div style="color:rgba(6,22,8,0.6);font-weight:700;font-size:13px">Stickiness / comfort score</div>
-    </div>
+        let desc = "The current conditions are ";
+        if (tempRange) desc += `${tempRange.desc} in temperature`;
+        if (humRange) desc += tempRange ? ` and ${humRange.desc} in humidity.` : ` with ${humRange.desc} humidity.`;
 
-  </section>
-
-  <!-- Extras Section -->
-  <div class="extras">
-
-    <div class="mini">
-      <h4>Yesterday — Avg Temp</h4>
-      <div class="val" id="yesterdayTemp">— °C</div>
-      <div style="font-size:12px;color:rgba(6,22,8,0.6);">Local mean temperature (Mumbai)</div>
-    </div>
-
-    <div class="mini">
-      <h4>Tomorrow — Expected</h4>
-      <div class="val" id="tomorrowTemp">— °C</div>
-      <div style="font-size:12px;color:rgba(6,22,8,0.6);">Model-based daytime expectation</div>
-    </div>
-
-    <div class="mini datasrc">
-      <div class="tag">Data Source</div>
-      <div style="font-weight:800;color:#0b3d20">Open-Meteo</div>
-      <button id="refreshWeatherBtn" style="margin-top:10px;background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:800;">Refresh Weather</button>
-      <div class="note" id="weatherNote" style="font-size:12px;color:rgba(6,22,8,0.6);margin-top:6px">Mumbai (auto)</div>
-    </div>
-
-    <!-- Clock + NEW info block -->
-    <div style="display:flex;gap:16px;align-items:center;margin-left:auto;">
-      <div class="clockBox">
-        <canvas id="clockCanvas" width="160" height="160"></canvas>
-      </div>
-
-      <div class="clockInfo">
-        <div class="day" id="clockDay">—</div>
-        <div class="date" id="clockDate">—</div>
-        <div class="loc" id="userLocation">📍 Detecting...</div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- Prediction -->
-  <section class="prediction" aria-labelledby="pred-title">
-    <h3 id="pred-title">Trinetra's Interpretation · creative & human</h3>
-    <p id="predictionText">Gathering range-based context…</p>
-    <div class="meta">
-      <div class="pill">Updated: <strong id="predUpdated">—</strong></div>
-      <div class="pill">Temp Range: <strong id="predTempRange">—</strong></div>
-      <div class="pill">Hum Range: <strong id="predHumRange">—</strong></div>
-    </div>
-  </section>
-
-  <div style="
-  width:100%;
-  text-align:center;
-  padding:10px 0;
-  font-size:13px;
-  color:#c9f3ff;
-  background:rgba(0, 0, 0, 0.4);
-  backdrop-filter:blur(4px);
-  border-top:1px solid rgba(0,255,255,0.2);
-  text-shadow:0 0 8px #00eaff;
-  margin-top:30px;
-">
-  🚧 If you have any feedback for this site. Mail it to the email address - <b>vikrantchipkar7@gmail.com</b> or else contact me - <b>93244 59446</b> 🚧
-</div>
-
-</div>
-
-<script>
-(() => {
-
-/* --------------------------- DATE + DAY BLOCK --------------------------- */
-function updateDateBlock() {
-  const now = new Date();
-  document.getElementById("clockDay").textContent =
-      now.toLocaleDateString("en-IN",{ weekday:"long" });
-
-  document.getElementById("clockDate").textContent =
-      now.toLocaleDateString("en-IN",{ day:"numeric", month:"long", year:"numeric" });
-}
-setInterval(updateDateBlock, 1000);
-updateDateBlock();
-
-/* --------------------------- YOUR ORIGINAL JS BELOW --------------------------- */
-
-function updateLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const lat = pos.coords.latitude;
-        const lon = pos.coords.longitude;
-
-        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
-
+        predictionTextEl.textContent = desc;
+        predUpdatedEl.textContent = new Date().toLocaleTimeString();
+      }
+      // Main update function
+      async function updateDashboard() {
         try {
-          const response = await fetch(url);
-          const data = await response.json();
+          const [temp, hum] = await Promise.all([fetchTemp(), fetchHum()]);
 
-          // PRIORITY → area first (like Kandivali, Andheri, etc.)
-          const area =
-            data.address.suburb ||
-            data.address.neighbourhood ||
-            data.address.locality ||
-            data.address.residential ||
-            data.address.quarter ||
-            data.address.village ||
-            data.address.town ||
-            data.address.city ||
-            "Unknown Area";
+          tempEl.textContent = temp.toFixed(1);
+          humEl.textContent = hum.toFixed(1);
 
-          document.getElementById("userLocation").textContent = "📍 " + area;
-        } catch (e) {
-          document.getElementById("userLocation").textContent = "📍 Location Error";
+          const heatIndex = calculateHeatIndex(temp, hum);
+          feelsEl.textContent = heatIndex.toFixed(1);
+
+          const comfortLevel = calculateComfortLevel(temp, hum);
+          comfortEl.textContent = comfortLevel.toFixed(1);
+
+          updatePrediction(temp, hum);
+        } catch (error) {
+          console.error("Error updating dashboard:", error);
         }
-      },
-      () => {
-        document.getElementById("userLocation").textContent = "📍 Permission Denied";
       }
-    );
-  } else {
-    document.getElementById("userLocation").textContent = "📍 Not Supported";
-  }
-}
-
-updateLocation();
-
-
-let x = [86, 67, 49, 49];
-const UID = x.map(n => String.fromCharCode(n)).join('');
-
-  const TEMP_URL = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Temperature`;
-  const HUM_URL  = `https://iot.roboninja.in/index.php?action=read&UID=${UID}&Humidity`;
-  const UPDATE_MS = 5000;
-
-  const LAT = 19.0760, LON = 72.8777;
-  const YESTERDAY_URL = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&past_days=1&daily=temperature_2m_mean&timezone=auto`;
-  const TOMORROW_URL  = `https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&forecast_days=2&daily=temperature_2m_mean&timezone=auto`;
-
-  const tempEl = document.getElementById('tempValue');
-  const humEl = document.getElementById('humValue');
-  const feelsEl = document.getElementById('feelsValue');
-  const comfortEl = document.getElementById('comfortValue');
-  const yesterdayEl = document.getElementById('yesterdayTemp');
-  const tomorrowEl = document.getElementById('tomorrowTemp');
-  const weatherNoteEl = document.getElementById('weatherNote');
-  const refreshWeatherBtn = document.getElementById('refreshWeatherBtn');
-  const predictionTextEl = document.getElementById('predictionText');
-  const predUpdatedEl = document.getElementById('predUpdated');
-  const predTempRangeEl = document.getElementById('predTempRange');
-  const predHumRangeEl = document.getElementById('predHumRange');
-
-  function parseNumberSafe(raw){
-    if (raw==null) return NaN;
-    const m = String(raw).match(/-?\d+(\.\d+)?/);
-    return m? parseFloat(m[0]) : NaN;
-  }
-
-  function sanitizeTemp(t){
-    if(!Number.isFinite(t)) return NaN;
-    if(t<-40||t>60) return NaN;
-    return t;
-  }
-  function sanitizeHum(h){
-    if(!Number.isFinite(h)) return NaN;
-    if(h<0||h>100) return NaN;
-    return h;
-  }
-
-  const tempRanges=[
-    {label:"15–17°C",min:15,max:17,desc:"cool"},
-    {label:"18–20°C",min:18,max:20,desc:"mild"},
-    {label:"21–23°C",min:21,max:23,desc:"pleasant"},
-    {label:"24–26°C",min:24,max:26,desc:"warm"},
-    {label:"27–29°C",min:27,max:29,desc:"warm-to-hot"},
-    {label:"30–32°C",min:30,max:32,desc:"hot"},
-    {label:"33–35°C",min:33,max:35,desc:"very hot"},
-    {label:"36–39°C",min:36,max:39,desc:"extremely hot"}
-  ];
-  const humRanges=[
-    {label:"0–10%",min:0,max:10,desc:"very dry"},
-    {label:"11–20%",min:11,max:20,desc:"dry"},
-    {label:"21–30%",min:21,max:30,desc:"low humidity"},
-    {label:"31–40%",min:31,max:40,desc:"moderately low"},
-    {label:"41–50%",min:41,max:50,desc:"moderate"},
-    {label:"51–60%",min:51,max:60,desc:"mildly humid"},
-    {label:"61–70%",min:61,max:70,desc:"humid"},
-    {label:"71–80%",min:71,max:80,desc:"very humid"},
-    {label:"81–90%",min:81,max:90,desc:"very high humidity"},
-    {label:"91–100%",min:91,max:100,desc:"extremely humid"}
-  ];
-
-  function findTempRangeIndex(n){
-    if(isNaN(n)) return -1;
-    for(let i=0;i<tempRanges.length;i++){
-      if(n>=tempRanges[i].min && n<=tempRanges[i].max) return i;
-    }
-    return n<tempRanges[0].min?0:tempRanges.length-1;
-  }
-  function findHumRangeIndex(n){
-    if(isNaN(n)) return -1;
-    for(let i=0;i<humRanges.length;i++){
-      if(n>=humRanges[i].min && n<=humRanges[i].max) return i;
-    }
-    return n<humRanges[0].min?0:humRanges.length-1;
-  }
-
-  function calculateHeatIndex(t,h){
-    if(!Number.isFinite(t)||!Number.isFinite(h)) return NaN;
-    const F=t*9/5+32;
-    let HI=-42.379 + 2.04901523*F + 10.14333127*h - 0.22475541*F*h - 0.00683783*F*F -
-             0.05481717*h*h + 0.00122874*F*F*h + 0.00085282*F*h*h - 0.00000199*F*F*h*h;
-    if(F<80) HI=0.5*(F+61+((F-68)*1.2)+(h*0.094));
-    return Number(((HI-32)*5/9).toFixed(1));
-  }
-
-  function calculateStickiness(t,h){
-    if(!Number.isFinite(t)||!Number.isFinite(h)) return NaN;
-    return Number(Math.max(0,Math.min(100,h*0.7+t*0.3)).toFixed(1));
-  }
-
-  const opens=[
-    "There’s a gentle character to the air right now —",
-    "Take a breath: the atmosphere presents itself like this —",
-    "Picture the moment: the surrounding air feels as follows —",
-    "A quick note on conditions: the environment is currently described as —",
-    "Imagine stepping outside: the air greets you with —"
-  ];
-  const middles=[
-    "This pairing suggests a simple, approachable scene where nature seems to be nudging you gently.",
-    "It feels like a largely comfortable setting, inviting easy plans with a small caveat for certain activities.",
-    "It creates a calm backdrop for everyday things, with a subtle texture that you can feel on the skin.",
-    "You get a sensible balance — pleasant enough to step outside but not entirely without a small caveat.",
-    "There’s a friendly balance in the air that makes casual outdoor time perfectly reasonable today."
-  ];
-  const transitions=[
-    "For most people that translates to",
-    "Practically speaking, that means",
-    "In everyday terms, expect",
-    "So you’ll likely notice",
-    "Which typically feels like"
-  ];
-  const actions=[
-    "taking a light jacket for early mornings or evenings, and keeping water handy.",
-    "wearing breathable fabrics and planning relaxed outdoor moments rather than strenuous exercise.",
-    "choosing shade for extended outdoor tasks and sipping cool water intermittently.",
-    "preferring quick morning walks over midday exertion and staying comfortably hydrated throughout.",
-    "keeping an umbrella nearby if clouds look moody later, though it should remain optional."
-  ];
-  const closers=[
-    "Overall, it’s a friendly kind of day: easy to enjoy with small practical adjustments.",
-    "All told, a nicely human moment — comfortable, manageable, and a little evocative.",
-    "In short, the scene feels kindly: enjoyable for simple plans, with small practical notes.",
-    "Ultimately it’s one of those days that invites you out while reminding you to be a touch mindful.",
-    "Put simply: pleasant with minor nudges to stay sensible — the kind of air that’s easy to live in."
-  ];
-  const modifiers=[
-    "The air leans gentle and inviting.",
-    "There’s a mild, comforting warmth in the surroundings.",
-    "It carries a slightly dense but still approachable feel.",
-    "It can feel a little sticky if you linger, yet manageable.",
-    "A soft balance between warmth and moisture shapes the mood."
-  ];
-
-  function pick(arr,i){ return arr[i%arr.length]; }
-
-  function generatePredictionText(ti, hi, tL, hL) {
-  if (ti < 0 || hi < 0)
-    return "Data is temporarily unavailable — please check sensor connectivity.";
-
-  const idx = ti * humRanges.length + hi;
-
-  let p = `${pick(opens, idx + 1)} ${lastTemp.toFixed(1)}°C (actual temperature) paired with ${lastHum}% humidity (actual humidity) paints a specific picture of the moment. ${pick(modifiers, idx + 6)} ${pick(middles, idx + 2)} ${pick(transitions, idx + 3)} in these conditions you can expect gentle effects on comfort and activity: ${pick(actions, idx + 4)} At heart this combination reads like a friendly note about the world outside. ${pick(closers, idx + 5)}`;
-  
-  const words = p.trim().split(/\s+/).length;
-  if (words < 78) p += " It’s a short, honest little observation offered like a note from a thoughtful neighbor.";
-  else if (words > 95) p = p.split(' ').slice(0, 95).join(' ') + "...";
-
-  return p;
-} 
-
-  let lastTemp=null,lastHum=null,lastChangeTime=Date.now();
-
-  function updateStale(t,h){
-    if(Number.isFinite(t)&&Number.isFinite(h)){
-      if(t===lastTemp&&h===lastHum){
-        if(Date.now()-lastChangeTime>=1800000){
-          predictionTextEl.textContent="Power up the DHT11 circuit";
-          predUpdatedEl.textContent=new Date().toLocaleTimeString();
-          return true;
+      // Initial load
+      updateDashboard();
+      setInterval(updateDashboard, UPDATE_MS);
+      // Weather data
+      async function updateWeatherData() {
+        try {
+          const [yesterdayTemp, tomorrowTemp] = await Promise.all([fetchYesterdayTemp(), fetchTomorrowTemp()]);
+          yesterdayEl.textContent = `${yesterdayTemp.toFixed(1)} °C`;
+          tomorrowEl.textContent = `${tomorrowTemp.toFixed(1)} °C`;
+        } catch (error) {
+          console.error("Error fetching weather data:", error);
         }
-      }else{
-        lastTemp=t; lastHum=h; lastChangeTime=Date.now();
       }
-    }
-    return false;
-  }
+      refreshWeatherBtn.addEventListener('click', updateWeatherData);
+      updateWeatherData();
+      // Clock
+      function drawClock() {
+        const canvas = document.getElementById('clockCanvas');
+        const ctx = canvas.getContext('2d');
+        const radius = canvas.height / 2;
+        ctx.translate(radius, radius);
+        setInterval(() => {
+          const now = new Date();
+          ctx.clearRect(-radius, -radius, canvas.width, canvas.height);
 
-  async function fetchPlain(url){
-    try{
-      const r=await fetch(url+"&_="+Date.now(),{cache:"no-store"});
-      if(!r.ok) return {ok:false};
-      const txt=(await r.text()).trim();
-      const val=parseNumberSafe(txt);
-      return {ok:!isNaN(val),value:val};
-    }catch{return {ok:false};}
-  }
+          // Draw face
+          ctx.beginPath();
+          ctx.arc(0, 0, radius * 0.95, 0, 2 * Math.PI);
+          ctx.fillStyle = '#f0f0f0';
+          ctx.fill();
 
-  async function fetchJson(url){
-    try{
-      const r=await fetch(url,{cache:"no-store"});
-      if(!r.ok) return null;
-      return await r.json();
-    }catch{return null;}
-  }
+          // Draw hands
+          const hour = now.getHours() % 12;
+          const minute = now.getMinutes();
+          const second = now.getSeconds();
 
-  async function loadWeather(){
-    weatherNoteEl.textContent="Fetching weather data…";
-    const y=await fetchJson(YESTERDAY_URL);
-    if(y?.daily?.temperature_2m_mean?.length){
-      let v=y.daily.temperature_2m_mean[0];
-      yesterdayEl.textContent = Number(v).toFixed(1)+" °C";
-    }
-    const t=await fetchJson(TOMORROW_URL);
-    if(t?.daily?.temperature_2m_mean?.length>1){
-      let v2=t.daily.temperature_2m_mean[1];
-      tomorrowEl.textContent = Number(v2).toFixed(1)+" °C";
-    }
-    weatherNoteEl.textContent="Open-Meteo (Mumbai)";
-  }
+          // Hour hand
+          ctx.save();
+          ctx.rotate((hour + minute / 60) * (Math.PI / 6));
+          ctx.fillStyle = '#333';
+          ctx.fillRect(-5, -radius * 0.5, 10, radius * 0.3);
+          ctx.restore();
 
-  refreshWeatherBtn.addEventListener('click',loadWeather);
+          // Minute hand
+          ctx.save();
+          ctx.rotate((minute + second / 60) * (Math.PI / 30));
+          ctx.fillStyle = '#555';
+          ctx.fillRect(-3, -radius * 0.7, 6, radius * 0.4);
+          ctx.restore();
 
-  async function refreshOnce(){
-    predictionTextEl.textContent="Refreshing readings and composing a human-style interpretation...";
-    const [tR,hR]=await Promise.all([fetchPlain(TEMP_URL),fetchPlain(HUM_URL)]);
-    let tVal=tR.ok?sanitizeTemp(tR.value):NaN;
-    let hVal=hR.ok?sanitizeHum(hR.value):NaN;
+          // Second hand
+          ctx.save();
+          ctx.rotate(second * (Math.PI / 30));
+          ctx.fillStyle = '#ff0000';
+          ctx.fillRect(-1, -radius * 0.8, 2, radius * 0.5);
+          ctx.restore();
+        }, 1000);
+      }
+      drawClock();
+      // Date and Location
+      function updateDateAndLocation() {
+        const now = new Date();
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayName = days[now.getDay()];
+        const dateStr = now.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 
-    tempEl.textContent=Number.isFinite(tVal)?tVal.toFixed(1):"—";
-    humEl.textContent=Number.isFinite(hVal)?Math.round(hVal):"—";
+        document.getElementById('clockDay').textContent = dayName;
+        document.getElementById('clockDate').textContent = dateStr;
 
-    if(updateStale(tVal,hVal)) return;
-
-    const tIdx=findTempRangeIndex(tVal);
-    const hIdx=findHumRangeIndex(hVal);
-
-    const tLabel=tIdx>=0?tempRanges[tIdx].label:"—";
-    const hLabel=hIdx>=0?humRanges[hIdx].label:"—";
-
-    predTempRangeEl.textContent=tLabel;
-    predHumRangeEl.textContent=hLabel;
-    predUpdatedEl.textContent=new Date().toLocaleTimeString();
-
-    const heat = calculateHeatIndex(tVal,hVal);
-    const comfort = calculateStickiness(tVal,hVal);
-
-    feelsEl.textContent=Number.isFinite(heat)?heat:"—";
-    comfortEl.textContent=Number.isFinite(comfort)?comfort+" / 100":"—";
-
-    predictionTextEl.textContent=generatePredictionText(tIdx,hIdx,tLabel,hLabel);
-  }
-
-  loadWeather();
-  refreshOnce();
-  setInterval(refreshOnce,UPDATE_MS);
-
-  /* CLOCK ENGINE */
-  const canvas=document.getElementById("clockCanvas");
-  const ctx=canvas.getContext("2d");
-
-  function drawClock(){
-    const now=new Date();
-    const sec=now.getSeconds();
-    const min=now.getMinutes();
-    const hr=now.getHours()%12;
-
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    const r=canvas.width/2;
-    ctx.translate(r,r);
-
-    ctx.beginPath();
-    ctx.arc(0,0,r-5,0,Math.PI*2);
-    ctx.lineWidth=5;
-    ctx.strokeStyle="#0b3d20";
-    ctx.stroke();
-
-    for(let i=0;i<12;i++){
-      let ang=(i*Math.PI/6);
-      ctx.rotate(ang);
-      ctx.beginPath();
-      ctx.moveTo(0,-(r-10));
-      ctx.lineTo(0,-(r-25));
-      ctx.strokeStyle="#0a6a2a";
-      ctx.lineWidth=4;
-      ctx.stroke();
-      ctx.rotate(-ang);
-    }
-
-    let secAng=sec*Math.PI/30;
-    let minAng=(min*Math.PI/30)+(sec*Math.PI/(30*60));
-    let hrAng=(hr*Math.PI/6)+(min*Math.PI/(6*60));
-
-    ctx.rotate(hrAng);
-    ctx.beginPath();
-    ctx.moveTo(0,10);
-    ctx.lineTo(0,-(r*0.45));
-    ctx.lineWidth=6;
-    ctx.strokeStyle="#000";
-    ctx.stroke();
-    ctx.rotate(-hrAng);
-
-    ctx.rotate(minAng);
-    ctx.beginPath();
-    ctx.moveTo(0,15);
-    ctx.lineTo(0,-(r*0.65));
-    ctx.lineWidth=4;
-    ctx.strokeStyle="#222";
-    ctx.stroke();
-    ctx.rotate(-minAng);
-
-    ctx.rotate(secAng);
-    ctx.beginPath();
-    ctx.moveTo(0,20);
-    ctx.lineTo(0,-(r*0.75));
-    ctx.lineWidth=2;
-    ctx.strokeStyle="red";
-    ctx.stroke();
-    ctx.rotate(-secAng);
-
-    ctx.translate(-r,-r);
-  }
-
-  setInterval(drawClock,1000);
-  drawClock();
-
-})();
-</script>
-
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position => {
+            const { latitude, longitude } = position.coords;
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`)
+              .then(res => res.json())
+              .then(data => {
+                const locName = data.address.city || data.address.town || data.address.village || data.address.state || "Unknown Location";
+                document.getElementById('userLocation').textContent = `📍 ${locName}`;
+              })
+              .catch(() => {
+                document.getElementById('userLocation').textContent = `📍 Lat: ${latitude.toFixed(2)}, Lon: ${longitude.toFixed(2)}`;
+              });
+          }, () => {
+            document.getElementById('userLocation').textContent = "📍 Location access denied";
+          });
+        } else {
+          document.getElementById('userLocation').textContent = "📍 Geolocation not supported";
+        }
+      }
+      updateDateAndLocation();
+    })();
+  </script>
 </body>
 </html>
